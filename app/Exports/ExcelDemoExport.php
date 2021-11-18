@@ -18,8 +18,10 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Maatwebsite\Excel\Concerns\WithDrawings;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings
+class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
 {
     /**
      * 执行查询获取数据集合
@@ -47,7 +49,7 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
             '浮点数字段',
             '图片字段',
             '文本字段',
-            '创建时间'
+            '创建时间',
         ];
     }
 
@@ -65,14 +67,14 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
             $demo->float_column,
             $demo->pic_column,
             $demo->text_column,
-            $demo->created_at
-            //Date::dateTimeToExcel($demo->created_at),
+            $demo->created_at,//Date::dateTimeToExcel($demo->created_at),
         ];
     }
 
     /**
      * 字段 格式化数据类型
      * DOC:https://docs.laravel-excel.com/3.1/exports/column-formatting.html#formatting-columns
+     * 其它类型查看 NumberFormat类的常量
      * @return array
      */
     public function columnFormats(): array
@@ -133,11 +135,11 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
                     //填充方式线性
                     'fillType' => Fill::FILL_GRADIENT_LINEAR,
                     'rotation' => 90,
-                    //渐变开始颜色
+                    //前景色
                     'startColor' => [
                         'argb' => 'FFA0A0A0',
                     ],
-                    //渐变结束颜色
+                    //背景色
                     'endColor' => [
                         'argb' => 'FFFFFFFF',
                     ],
@@ -160,9 +162,12 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
                 'alignment' => [
                     'horizontal' => Alignment::HORIZONTAL_CENTER,
                 ],
-                //背景填充
+                //背景填充，前景色和背景色一致，就是设置背景颜色
                 'fill' => [
                     'startColor' => [
+                        'argb' => Color::COLOR_RED,
+                    ],
+                    'endColor' => [
                         'argb' => Color::COLOR_RED,
                     ]
                 ],
@@ -171,19 +176,35 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
     }
 
     /**
-     * 图片
-     *
+     * 插入图片到指定位置
+     * DOC:https://docs.laravel-excel.com/3.1/exports/drawings.html#adding-a-single-drawing
      * @return void
      */
     public function drawings()
     {
         $drawing = new Drawing();
-        $drawing->setName('Logo');
-        $drawing->setDescription('This is my logo');
-        $drawing->setPath(public_path('/img/logo.jpg'));
-        $drawing->setHeight(90);
-        $drawing->setCoordinates('D');
+        $drawing->setName('conky');
+        $drawing->setDescription('conky');
+        $drawing->setPath(public_path('conky.png'));
+        $drawing->setHeight(30);
+        $drawing->setCoordinates('A2');//表格列和对应行数
 
         return $drawing;
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                dd($event->sheet->getDelegate()->getCellCollection());
+                // $drawing = new Drawing();
+                // $drawing->setName('conky');
+                // $drawing->setDescription('conky');
+                // $drawing->setPath(public_path('images/logo.png'));
+                // $drawing->setCoordinates('D1');
+
+                // $drawing->setWorksheet($event->sheet->getDelegate());
+            }
+        ];
     }
 }
