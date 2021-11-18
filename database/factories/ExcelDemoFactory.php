@@ -12,11 +12,11 @@ class ExcelDemoFactory extends Factory
     public function definition()
     {
         return [
-            'str_column' => $this->faker->name,
-            'int_column' => \mt_rand(1, 1000),
-            'float_column' => \round(\mt_rand(1000, 10000)/3, 2),
-            'pic_column' => config('app.url').'/public/conky.png',
-            'text_column' => $this->faker->randomHtml(2, 3)
+            'str_column' => $this->faker->realText(),
+            'int_column' => $this->faker->numberBetween(1, 9999999999),
+            'float_column' => $this->faker->randomFloat(2, 1, 9999999999),
+            'pic_column' => '/public/conky.png',
+            'text_column' => $this->faker->randomHtml(1, 3)
         ];
     }
 }

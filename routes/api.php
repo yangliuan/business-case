@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FilesCase\UploadsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FilesCase\UploadsController;
+use App\Http\Controllers\ExcelCase\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,5 @@ Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);
 });
 Route::prefix('excel')->group(function () {
-    Route::post('export', 'ExportController@export');
+    Route::any('download', [ExportController::class,'download']);//下载导出
 });
