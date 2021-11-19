@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\ExcelDemo;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -23,6 +24,8 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
 {
+    use Exportable;
+
     /**
      * 执行查询获取数据集合
      * DOC:https://docs.laravel-excel.com/3.1/exports/collection.html
@@ -31,6 +34,7 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
     public function collection()
     {
         $demos = ExcelDemo::select()
+            ->limit(10)
             ->get();
 
         return $demos;
@@ -83,8 +87,8 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
             'A' => NumberFormat::FORMAT_TEXT,
             'B' => NumberFormat::FORMAT_NUMBER,
             'C' => NumberFormat::FORMAT_NUMBER_00,
-            'D'=> NumberFormat::FORMAT_TEXT,
-            'E'=> NumberFormat::FORMAT_TEXT,
+            'D' => NumberFormat::FORMAT_TEXT,
+            'E' => NumberFormat::FORMAT_TEXT,
         ];
     }
 
@@ -192,18 +196,18 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
         return $drawing;
     }
 
+    /**
+     *
+     * DOC:https://learnku.com/laravel/t/49171
+     *
+     * @return array
+     */
     public function registerEvents(): array
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                dd($event->sheet->getDelegate()->getCellCollection());
-                // $drawing = new Drawing();
-                // $drawing->setName('conky');
-                // $drawing->setDescription('conky');
-                // $drawing->setPath(public_path('images/logo.png'));
-                // $drawing->setCoordinates('D1');
-
-                // $drawing->setWorksheet($event->sheet->getDelegate());
+                foreach ($this->collection() as $key => $value) {
+                }
             }
         ];
     }
