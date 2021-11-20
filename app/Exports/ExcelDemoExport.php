@@ -1,9 +1,12 @@
 <?php
-
+/**
+ * https://phpspreadsheet.readthedocs.io/en/latest/references/features-cross-reference/
+ */
 namespace App\Exports;
 
 use App\Models\ExcelDemo;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -22,9 +25,19 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
+class ExcelDemoExport implements WithTitle, FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
 {
     use Exportable;
+
+    /**
+     * Excel 底部工作表 名称
+     * DOC: https://docs.laravel-excel.com/3.1/exports/multiple-sheets.html#sheet-classes
+     * @return string
+     */
+    public function title(): string
+    {
+        return '月份 '.date('m');
+    }
 
     /**
      * 执行查询获取数据集合
