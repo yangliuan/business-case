@@ -15,7 +15,7 @@ class ExcelDemoFactory extends Factory
             'str_column' => $this->faker->realText(),
             'int_column' => $this->faker->numberBetween(1, 9999999999),
             'float_column' => $this->faker->randomFloat(2, 1, 9999999999),
-            'pic_column' => 'conky.png',//测试数据放在public目录下
+            'pic_column' => 'avatar.jpeg',//测试数据放在public目录下
             'text_column' => $this->faker->randomHtml(1, 3)
         ];
     }

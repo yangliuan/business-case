@@ -187,16 +187,17 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
     public function drawings()
     {
         $drawing = new Drawing();
-        $drawing->setName('conky');
-        $drawing->setDescription('conky');
-        $drawing->setPath(public_path('conky.png'));
-        $drawing->setHeight(30);
+        $drawing->setName('img');
+        $drawing->setDescription('img');
+        $drawing->setPath(public_path('avatar.jpeg'));
+        $drawing->setHeight(33);
         $drawing->setCoordinates('A2');//表格列和对应行数
 
         return $drawing;
     }
 
     /**
+     * 将字段url自动转为图片
      *
      * DOC:https://learnku.com/laravel/t/49171
      *
@@ -206,7 +207,29 @@ class ExcelDemoExport implements FromCollection, WithMapping, WithHeadings, With
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
+                //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
+                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
+                $count = count($this->collection());//列数量
+
+                //基于行数迭代
+                for ($i=0;$i<$count;$i++) {
+                    //设置行高
+                    $event->sheet->getRowDimension($i+2)->setRowHeight(33);
+                }
+
+                //遍历数据 取图片字段并设置位置生成图片
                 foreach ($this->collection() as $key => $value) {
+                    $drawing = new Drawing();
+                    $drawing->setName('image');
+                    $drawing->setDescription('image');
+                    //如果图片是远程地址需要先下载到本地，生成完成后删除
+                    $drawing->setPath(public_path($value['pic_column']));
+                    $drawing->setHeight(70);
+                    $drawing->setOffsetX(5);
+                    $drawing->setOffsetY(5);
+                    //设置列和行
+                    $drawing->setCoordinates('D'.($key+2));
+                    $drawing->setWorksheet($event->sheet->getDelegate());
                 }
             }
         ];
