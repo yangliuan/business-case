@@ -5,9 +5,12 @@
 namespace App\Exports;
 
 use App\Models\ExcelDemo;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithCustomQuerySize;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -25,9 +28,18 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoExport implements WithTitle, FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
+class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQuerySize, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
 {
     use Exportable;
+
+    /**
+     * 可以通过注入 其他参数 增加query查询条件 或者通过asGetter方式增加查询条件
+     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html#as-constructor-parameter
+     * @param Request $request
+     */
+    public function __construct()
+    {
+    }
 
     /**
      * Excel 底部工作表 名称
@@ -40,17 +52,25 @@ class ExcelDemoExport implements WithTitle, FromCollection, WithMapping, WithHea
     }
 
     /**
-     * 执行查询获取数据集合
-     * DOC:https://docs.laravel-excel.com/3.1/exports/collection.html
+     * 通过使用 FromQuery 接口，我们可以为导出准备查询。在这个场景下，这个查询是分块执行的,适合大数据量导出
+     *
+     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function query()
     {
-        $demos = ExcelDemo::select()
-            ->limit(10)
-            ->get();
+        return ExcelDemo::query();
+    }
 
-        return $demos;
+    /**
+     * 自定义导出数量
+     * DOC:https://docs.laravel-excel.com/3.1/exports/queued.html#when-to-use
+     *
+     * @return integer
+     */
+    public function querySize():int
+    {
+        return $this->query()->count();
     }
 
     /**
@@ -204,7 +224,7 @@ class ExcelDemoExport implements WithTitle, FromCollection, WithMapping, WithHea
         $drawing->setDescription('img');
         $drawing->setPath(public_path('avatar.jpeg'));
         $drawing->setHeight(33);
-        $drawing->setCoordinates('A2');//表格列和对应行数
+        $drawing->setCoordinates('A1');//表格列和对应行数
 
         return $drawing;
     }
@@ -221,29 +241,30 @@ class ExcelDemoExport implements WithTitle, FromCollection, WithMapping, WithHea
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
-                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
-                $count = count($this->collection());//列数量
+                // $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
+                // $count = count($this->query());//列数量
 
-                //基于行数迭代
-                for ($i=0;$i<$count;$i++) {
-                    //设置行高
-                    $event->sheet->getRowDimension($i+2)->setRowHeight(33);
-                }
+                // //基于行数迭代
+                // for ($i=0;$i<$count;$i++) {
+                //     //设置行高
+                //     $event->sheet->getRowDimension($i+2)->setRowHeight(33);
+                // }
 
-                //遍历数据 取图片字段并设置位置生成图片
-                foreach ($this->collection() as $key => $value) {
-                    $drawing = new Drawing();
-                    $drawing->setName('image');
-                    $drawing->setDescription('image');
-                    //如果图片是远程地址需要先下载到本地，生成完成后删除
-                    $drawing->setPath(public_path($value['pic_column']));
-                    $drawing->setHeight(70);
-                    $drawing->setOffsetX(5);
-                    $drawing->setOffsetY(5);
-                    //设置列和行
-                    $drawing->setCoordinates('D'.($key+2));
-                    $drawing->setWorksheet($event->sheet->getDelegate());
-                }
+                // //遍历数据 取图片字段并设置位置生成图片
+                // foreach ($this->query() as $key => $value) {
+                //     $drawing = new Drawing();
+                //     $drawing->setName('image');
+                //     $drawing->setDescription('image');
+                //     //如果图片是远程地址需要先下载到本地，生成完成后删除
+                //     $drawing->setPath(public_path($value['pic_column']));
+                //     //高度和行高保持一致
+                //     $drawing->setHeight(33);
+                //     $drawing->setOffsetX(5);
+                //     $drawing->setOffsetY(5);
+                //     //设置列和行
+                //     $drawing->setCoordinates('D'.($key+2));
+                //     $drawing->setWorksheet($event->sheet->getDelegate());
+                // }
             }
         ];
     }
