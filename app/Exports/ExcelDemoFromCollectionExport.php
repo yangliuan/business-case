@@ -48,7 +48,7 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            //使用cursor
+            //使用cursor可以有效降低内存使用
             //DOC:https://learnku.com/laravel/t/42018#reply208957
             ->cursor();
 
@@ -102,7 +102,7 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
             'A' => NumberFormat::FORMAT_TEXT,
             'B' => NumberFormat::FORMAT_NUMBER,
             'C' => NumberFormat::FORMAT_NUMBER_00,
-            'D' => NumberFormat::FORMAT_TEXT,
+            //'D' => NumberFormat::FORMAT_TEXT,
             'E' => NumberFormat::FORMAT_TEXT,
         ];
     }
