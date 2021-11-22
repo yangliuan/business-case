@@ -59,11 +59,11 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
      */
     public function query()
     {
-        return ExcelDemo::query();
+        return ExcelDemo::query()->where('id', '>', 0);
     }
 
     /**
-     * 自定义导出数量
+     * 自定义导出总数量，不需要限制数量时，不设置
      * DOC:https://docs.laravel-excel.com/3.1/exports/queued.html#when-to-use
      *
      * @return integer
@@ -241,30 +241,30 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
-                // $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
-                // $count = count($this->query());//列数量
+                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
+                $count = $this->query()->count(); //列总数量
 
-                // //基于行数迭代
-                // for ($i=0;$i<$count;$i++) {
-                //     //设置行高
-                //     $event->sheet->getRowDimension($i+2)->setRowHeight(33);
-                // }
+                //基于行数迭代
+                for ($i=0;$i<$count;$i++) {
+                    //设置行高
+                    $event->sheet->getRowDimension($i+2)->setRowHeight(33);
+                }
 
-                // //遍历数据 取图片字段并设置位置生成图片
-                // foreach ($this->query() as $key => $value) {
-                //     $drawing = new Drawing();
-                //     $drawing->setName('image');
-                //     $drawing->setDescription('image');
-                //     //如果图片是远程地址需要先下载到本地，生成完成后删除
-                //     $drawing->setPath(public_path($value['pic_column']));
-                //     //高度和行高保持一致
-                //     $drawing->setHeight(33);
-                //     $drawing->setOffsetX(5);
-                //     $drawing->setOffsetY(5);
-                //     //设置列和行
-                //     $drawing->setCoordinates('D'.($key+2));
-                //     $drawing->setWorksheet($event->sheet->getDelegate());
-                // }
+                //遍历数据 取图片字段并设置位置生成图片
+                foreach ($this->query()->get() as $key => $value) {
+                    $drawing = new Drawing();
+                    $drawing->setName('image');
+                    $drawing->setDescription('image');
+                    //如果图片是远程地址需要先下载到本地，生成完成后删除
+                    $drawing->setPath(public_path($value['pic_column']));
+                    //高度和行高保持一致
+                    $drawing->setHeight(33);
+                    $drawing->setOffsetX(5);
+                    $drawing->setOffsetY(5);
+                    //设置列和行
+                    $drawing->setCoordinates('D'.($key+2));
+                    $drawing->setWorksheet($event->sheet->getDelegate());
+                }
             }
         ];
     }
