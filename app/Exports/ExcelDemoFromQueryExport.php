@@ -84,7 +84,7 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
             '字符串字段',
             '整数字段',
             '浮点数字段',
-            '图片字段',
+            '图片',
             '文本字段',
             '创建时间',
         ];
@@ -102,7 +102,7 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
             $demo->str_column,
             $demo->int_column,
             $demo->float_column,
-            $demo->pic_column,
+            '',
             $demo->text_column,
             $demo->created_at,//Date::dateTimeToExcel($demo->created_at),
         ];
@@ -120,7 +120,7 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
             'A' => NumberFormat::FORMAT_TEXT,
             'B' => NumberFormat::FORMAT_NUMBER,
             'C' => NumberFormat::FORMAT_NUMBER_00,
-            'D' => NumberFormat::FORMAT_TEXT,
+            //'D' => NumberFormat::FORMAT_TEXT,
             'E' => NumberFormat::FORMAT_TEXT,
         ];
     }
@@ -136,7 +136,7 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
             //'A'=>100,
             //'B'=>100,
             //'C'=>100,
-            'D'=>60,
+            //'D'=>60,
             'E'=>300,
             'F'=>20,
         ];
@@ -241,7 +241,7 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
-                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(33);
+                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(5);
                 $count = $this->query()->count(); //列总数量
 
                 //基于行数迭代
@@ -259,7 +259,9 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
                     $drawing->setPath(public_path($value['pic_column']));
                     //高度和行高保持一致
                     $drawing->setHeight(33);
+                    //x轴偏移量
                     $drawing->setOffsetX(5);
+                    //y轴偏移量
                     $drawing->setOffsetY(5);
                     //设置列和行
                     $drawing->setCoordinates('D'.($key+2));
