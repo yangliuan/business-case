@@ -118,7 +118,7 @@ return [
     */
 
     'redis' => [
-
+        //配置项phpredis PECL redis扩展   predis 扩展包redis
         'client' => env('REDIS_CLIENT', 'phpredis'),
 
         'options' => [
@@ -132,6 +132,8 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
+            //predis 支持该选项
+            'read_write_timeout' => 0
         ],
 
         'cache' => [

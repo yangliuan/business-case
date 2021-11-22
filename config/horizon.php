@@ -161,6 +161,8 @@ return [
     | Here you may define the queue worker settings used by your application
     | in all environments. These supervisors and settings handle all your
     | queued jobs and will be provisioned by Horizon during deployment.
+    | DOC:https://learnku.com/docs/laravel/8.5/horizon/10426#225f3e
+    |
     |
     */
 
@@ -168,9 +170,11 @@ return [
         'supervisor-1' => [
             'connection' => 'redis',
             'queue' => ['default'],
-            'balance' => 'auto',
+            'balance' => 'simple',
             'maxProcesses' => 1,
-            'memory' => 128,
+            'balanceMaxShift' => 1,
+            'balanceCooldown' => 3,
+            'memory' => 512,
             'tries' => 1,
             'nice' => 0,
         ],
