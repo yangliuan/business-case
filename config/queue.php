@@ -66,7 +66,8 @@ return [
             'driver' => 'redis',
             'connection' => 'default',
             'queue' => env('REDIS_QUEUE', 'default'),
-            'retry_after' => 90,
+            //重试时间，影响队列最大运行时间
+            'retry_after' => 3600,
             'block_for' => null,
             'after_commit' => false,
         ],
