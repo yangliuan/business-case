@@ -19,8 +19,8 @@ class ExportController extends Controller
      */
     public function download(Request $request)
     {
-        //\set_time_limit(0);
-        //\ini_set('memory_limit', '1024M');
+        \set_time_limit(0);
+        \ini_set('memory_limit', '1024M');
         return Excel::download(new ExcelDemoFromCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx');
     }
 
