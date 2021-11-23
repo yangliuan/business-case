@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\ExcelDemo;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -11,22 +12,25 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMapping, WithEvents
+class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
+    public function __construct()
+    {
+        \set_time_limit(0);
+        \ini_set('memory_limit', '4096M');
+    }
+
     /**
+    * 通过使用 FromQuery 接口，我们可以为导出准备查询。在这个场景下，这个查询是分块执行的,适合大数据量导出
+    *
+    * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+    public function query()
     {
-        $demos = ExcelDemo::query('id', 'pic_column')
-            ->where('id', '>', 0)
-            //使用cursor可以有效降低内存使用,不导出图片的情况下，6万条测试没有问题
-            //DOC:https://learnku.com/laravel/t/42018#reply208957
-            ->cursor();
-
-        return $demos;
+        return ExcelDemo::query()->where('id', '>', 0);
     }
 
     /**
@@ -70,7 +74,7 @@ class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMappin
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
                 $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(5);
-                $count = count($this->collection());//列数量
+                $count = $this->query()->count();//列数量
 
                 //基于行数迭代
                 for ($i=0;$i<$count;$i++) {
@@ -79,12 +83,12 @@ class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMappin
                 }
 
                 //遍历数据 取图片字段并设置位置生成图片
-                foreach ($this->collection() as $key => $value) {
+                foreach ($this->query()->cursor() as $key => $value) {
                     $drawing = new Drawing();
                     $drawing->setName('image');
                     $drawing->setDescription('image');
                     //如果图片是远程地址需要先下载到本地，生成完成后删除
-                    $drawing->setPath(public_path($value['pic_column']));
+                    $drawing->setPath(public_path($value->pic_column));
                     //设置图片高度
                     $drawing->setHeight(33);
                     //x轴偏移量
@@ -93,6 +97,7 @@ class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMappin
                     $drawing->setOffsetY(5);
                     //设置列和行
                     $drawing->setCoordinates('D'.($key+2));
+                    //
                     $drawing->setWorksheet($event->sheet->getDelegate());
                 }
             }

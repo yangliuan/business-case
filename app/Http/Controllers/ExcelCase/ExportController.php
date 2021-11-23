@@ -59,6 +59,7 @@ class ExportController extends Controller
      */
     public function images(Request $request)
     {
-        return Excel::download(new ExcelDemoPictureExport, 'excel-demo '.date('YmdHis').'.xlsx');
+        $res = Excel::queue(new ExcelDemoPictureExport(), 'excel-demo '.date('YmdHis').'.xlsx', 'public');
+        dump($res);
     }
 }
