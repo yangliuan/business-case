@@ -213,44 +213,15 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
     }
 
     /**
-     * 将字段url自动转为图片
-     *
-     * DOC:https://learnku.com/laravel/t/49171
+     * Undocumented function
      *
      * @return array
      */
     public function registerEvents(): array
     {
         return [
-            // AfterSheet::class => function (AfterSheet $event) {
-            //     //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
-            //     $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(5);
-            //     $count = count($this->collection());//列数量
-
-            //     //基于行数迭代
-            //     for ($i=0;$i<$count;$i++) {
-            //         //设置行高
-            //         $event->sheet->getRowDimension($i+2)->setRowHeight(33);
-            //     }
-
-            //     //遍历数据 取图片字段并设置位置生成图片
-            //     foreach ($this->collection() as $key => $value) {
-            //         $drawing = new Drawing();
-            //         $drawing->setName('image');
-            //         $drawing->setDescription('image');
-            //         //如果图片是远程地址需要先下载到本地，生成完成后删除
-            //         $drawing->setPath(public_path($value['pic_column']));
-            //         //设置图片高度
-            //         $drawing->setHeight(33);
-            //         //x轴偏移量
-            //         $drawing->setOffsetX(5);
-            //         //y轴偏移量
-            //         $drawing->setOffsetY(5);
-            //         //设置列和行
-            //         $drawing->setCoordinates('D'.($key+2));
-            //         $drawing->setWorksheet($event->sheet->getDelegate());
-            //     }
-            // }
+            AfterSheet::class => function (AfterSheet $event) {
+            }
         ];
     }
 }

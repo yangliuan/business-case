@@ -23,7 +23,12 @@ Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);
 });
 Route::prefix('excel')->group(function () {
-    Route::any('download', [ExportController::class,'download']);//下载导出
-    Route::any('store', [ExportController::class,'storeDisk']);//存储到磁盘
-    Route::any('queue', [ExportController::class,'queue']);//队列导出
+    Route::prefix('export')->group(function () {
+        Route::any('download', [ExportController::class,'download']);//下载导出
+        Route::any('store', [ExportController::class,'storeDisk']);//存储到磁盘
+        Route::any('queue', [ExportController::class,'queue']);//队列导出
+        Route::any('images', [ExportController::class,'images']);//导出图片
+    });
+    Route::prefix('import')->group(function () {
+    });
 });
