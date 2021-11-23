@@ -41,6 +41,7 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
 
     /**
      * 执行查询获取数据集合 适合小数据量导出，因为集合是数据结果,数据多的时候，会占用更多内存
+     *
      * DOC:https://docs.laravel-excel.com/3.1/exports/collection.html
      * @return \Illuminate\Support\Collection
      */
@@ -48,7 +49,7 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            //使用cursor可以有效降低内存使用
+            //使用cursor可以有效降低内存使用,不导出图片的情况下，6万条测试没有问题
             //DOC:https://learnku.com/laravel/t/42018#reply208957
             ->cursor();
 

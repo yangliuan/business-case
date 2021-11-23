@@ -250,8 +250,8 @@ class ExcelDemoFromQueryExport implements WithTitle, FromQuery, WithCustomQueryS
                     $event->sheet->getRowDimension($i+2)->setRowHeight(33);
                 }
 
-                //遍历数据 取图片字段并设置位置生成图片
-                foreach ($this->query()->get() as $key => $value) {
+                //使用游标遍历数据 取图片字段并设置位置生成图片
+                foreach ($this->query()->cursor() as $key => $value) {
                     $drawing = new Drawing();
                     $drawing->setName('image');
                     $drawing->setDescription('image');
