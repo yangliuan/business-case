@@ -1,6 +1,5 @@
 #!/usr/bin/env php
 <?php
-ini_set('memory', '1024M');
 
 define('LARAVEL_START', microtime(true));
 

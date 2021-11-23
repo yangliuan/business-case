@@ -48,7 +48,8 @@ class ExportController extends Controller
     {
         //大数据导出，一定要使用from query 和 queue 导出，占用内存小,并且可以解决响应超时问题
         $res = (new ExcelDemoFromQueryExport())->queue('excel-demo '.date('YmdHis').'.xlsx', 'public');
-        dump($res);
+
+        return redirect()->away('/horizon/jobs/completed');
     }
 
     /**
