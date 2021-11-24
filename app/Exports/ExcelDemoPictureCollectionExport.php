@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMapping, WithEvents
+class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
@@ -30,7 +30,7 @@ class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMappin
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            ->limit(100000)
+            ->limit(10000)
             ->cursor();
 
         return $demos;

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\ExcelCase;
 
-use App\Exports\ExcelDemoFromCollectionExport;
-use App\Exports\ExcelDemoFromQueryExport;
-use App\Exports\ExcelDemoPictureExport;
+use App\Exports\ExcelDemoCollectionExport;
+use App\Exports\ExcelDemoQueryExport;
+use App\Exports\ExcelDemoPictureCollectionExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -22,7 +22,7 @@ class ExportController extends Controller
         \set_time_limit(0);
         //下载10万条需要内存
         \ini_set('memory_limit', '1024M');
-        return Excel::download(new ExcelDemoFromCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx');
+        return Excel::download(new ExcelDemoCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx');
     }
 
     /**
@@ -34,7 +34,7 @@ class ExportController extends Controller
      */
     public function storeDisk(Request $request)
     {
-        return Excel::store(new ExcelDemoFromCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx', 'public');
+        return Excel::store(new ExcelDemoCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx', 'public');
     }
 
     /**
@@ -48,7 +48,7 @@ class ExportController extends Controller
     public function queue(Request $request)
     {
         //大数据导出，一定要使用from query 和 queue 导出，占用内存小,并且可以解决响应超时问题
-        Excel::queue(new ExcelDemoFromQueryExport(), 'excel-demo '.date('YmdHis').'.xlsx', 'public');
+        Excel::queue(new ExcelDemoQueryExport, 'excel-demo '.date('YmdHis').'.xlsx', 'public');
 
         return redirect()->away('/horizon/jobs/completed');
     }
@@ -59,10 +59,10 @@ class ExportController extends Controller
      * @param Request $request
      * @return void
      */
-    public function images(Request $request)
+    public function downloadImages(Request $request)
     {
-        \set_time_limit(0);
-        \ini_set('memory_limit', '1024M');
-        return Excel::download(new ExcelDemoPictureExport(), 'excel-demo '.date('YmdHis').'.xlsx');
+        //\set_time_limit(0);
+        //\ini_set('memory_limit', '1024M');
+        return Excel::download(new ExcelDemoPictureCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx');
     }
 }

@@ -5,9 +5,12 @@
 namespace App\Exports;
 
 use App\Models\ExcelDemo;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
+use Maatwebsite\Excel\Concerns\WithCustomQuerySize;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -25,9 +28,18 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
+class ExcelDemoQueryExport implements WithTitle, FromQuery, WithCustomQuerySize, WithMapping, WithHeadings, WithColumnFormatting, WithColumnWidths, ShouldAutoSize, WithStyles, WithDrawings, WithEvents
 {
     use Exportable;
+
+    /**
+     * 可以通过注入 其他参数 增加query查询条件 或者通过asGetter方式增加查询条件
+     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html#as-constructor-parameter
+     * @param Request $request
+     */
+    public function __construct()
+    {
+    }
 
     /**
      * Excel 底部工作表 名称
@@ -40,22 +52,25 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
     }
 
     /**
-     * 执行查询获取数据集合 适合小数据量导出，因为集合是数据结果,数据多的时候，会占用更多内存
+     * 通过使用 FromQuery 接口，我们可以为导出准备查询。在这个场景下，这个查询是分块执行的,适合大数据量导出
      *
-     * DOC:https://docs.laravel-excel.com/3.1/exports/collection.html
+     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function query()
     {
-        $demos = ExcelDemo::query()
-            ->where('id', '>', 0)
-            ->limit(100000)
-            //使用cursor可以有效降低内存使用,不导出图片的情况下，10万条测试没有问题
-            //不能用于队列导出
-            //DOC:https://learnku.com/laravel/t/42018#reply208957
-            ->cursor();
+        return ExcelDemo::query()->where('id', '>', 0);
+    }
 
-        return $demos;
+    /**
+     * 自定义导出总数量，不需要限制数量时，不设置
+     * DOC:https://docs.laravel-excel.com/3.1/exports/queued.html#when-to-use
+     *
+     * @return integer
+     */
+    public function querySize():int
+    {
+        return $this->query()->count();
     }
 
     /**
@@ -214,11 +229,6 @@ class ExcelDemoFromCollectionExport implements WithTitle, FromCollection, WithMa
         return $drawing;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return array
-     */
     public function registerEvents(): array
     {
         return [
