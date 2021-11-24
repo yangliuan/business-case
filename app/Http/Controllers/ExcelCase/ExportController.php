@@ -58,7 +58,7 @@ class ExportController extends Controller
 
     /**
      * 字段导出图片
-     *
+     * 导出图片非常耗内存，excel文件也会很大，没必要的时候不要导出图片
      * @param Request $request
      * @return void
      */
