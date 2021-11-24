@@ -57,7 +57,7 @@ class ExportController extends Controller
     }
 
     /**
-     * 字段导出图片
+     * 字段导出图片 并响应下载
      * 导出图片非常耗内存，excel文件也会很大，没必要的时候不要导出图片
      * @param Request $request
      * @return void
@@ -67,5 +67,15 @@ class ExportController extends Controller
         //\set_time_limit(0);
         //\ini_set('memory_limit', '1024M');
         return Excel::download(new ExcelDemoPictureCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx');
+    }
+
+    /**
+     * 字段导出图片 使用队列 并接受广播通知
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function queueImages(Request $request)
+    {
     }
 }

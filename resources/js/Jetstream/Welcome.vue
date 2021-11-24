@@ -10,7 +10,7 @@
             </div>
 
             <div class="mt-6 text-gray-500">
-                基于laravel技术栈解决业务需求的案例
+                基于laravel技术栈解决业务需求的案例 做一名优秀的"CV搬砖工程师"
             </div>
         </div>
 
@@ -23,35 +23,11 @@
 
                 <div class="ml-12">
                     <div class="mt-2 text-sm text-gray-500">
-                        Excel常用导出导出功能
+                        Excel常用导入导出功能
                     </div>
-                    <a href="/api/excel/export/store">
+                    <a href="/excel">
                         <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                                <div>导出到磁盘</div>
-                                <div class="ml-1 text-indigo-500">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </div>
-                        </div>
-                    </a>
-                    <a href="/api/excel/export/download">
-                        <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                                <div>下载导出Download</div>
-                                <div class="ml-1 text-indigo-500">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </div>
-                        </div>
-                    </a>
-                    <a href="/api/excel/export/queue">
-                        <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                                <div>队列导出</div>
-                                <div class="ml-1 text-indigo-500">
-                                    <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                                </div>
-                        </div>
-                    </a>
-                    <a href="/api/excel/export/download-images">
-                        <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                                <div>下载导出图片</div>
+                                <div>查看DEMO</div>
                                 <div class="ml-1 text-indigo-500">
                                     <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                 </div>
