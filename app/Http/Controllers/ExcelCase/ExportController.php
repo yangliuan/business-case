@@ -34,7 +34,10 @@ class ExportController extends Controller
      */
     public function storeDisk(Request $request)
     {
-        return Excel::store(new ExcelDemoCollectionExport, 'excel-demo '.date('YmdHis').'.xlsx', 'public');
+        $file_name = 'excel-demo '.date('YmdHis').'.xlsx';
+        Excel::store(new ExcelDemoCollectionExport, $file_name, 'public');
+
+        return redirect()->away(config('app.url').'/storage/'.$file_name);
     }
 
     /**
