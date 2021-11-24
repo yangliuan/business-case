@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, WithEvents
+class ExcelDemoPictureExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
@@ -26,9 +26,14 @@ class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, Wi
     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
     * @return \Illuminate\Support\Collection
     */
-    public function query()
+    public function collection()
     {
-        return ExcelDemo::query()->where('id', '>', 0);
+        $demos = ExcelDemo::query()
+            ->where('id', '>', 0)
+            ->limit(100000)
+            ->cursor();
+
+        return $demos;
     }
 
     /**
@@ -71,8 +76,8 @@ class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, Wi
         return [
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
-                $event->sheet->getColumnDimension('D')->setAutoSize(false)->setWidth(5);
-                $count = $this->query()->count();//列数量
+                $event->sheet->getColumnDimension('B')->setAutoSize(false)->setWidth(5);
+                $count = $this->collection()->count();//列数量
 
                 //基于行数迭代
                 for ($i=0;$i<$count;$i++) {
@@ -81,7 +86,7 @@ class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, Wi
                 }
 
                 //遍历数据 取图片字段并设置位置生成图片
-                foreach ($this->query()->cursor() as $key => $value) {
+                foreach ($this->collection() as $key => $value) {
                     $drawing = new Drawing();
                     $drawing->setName('image');
                     $drawing->setDescription('image');
@@ -94,7 +99,7 @@ class ExcelDemoPictureExport implements FromQuery, WithHeadings, WithMapping, Wi
                     //y轴偏移量
                     $drawing->setOffsetY(5);
                     //设置列和行
-                    $drawing->setCoordinates('D'.($key+2));
+                    $drawing->setCoordinates('B'.($key+2));
                     //
                     $drawing->setWorksheet($event->sheet->getDelegate());
                 }
