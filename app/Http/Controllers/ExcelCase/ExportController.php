@@ -84,5 +84,7 @@ class ExportController extends Controller
     {
         $res = ExcelExportCompletedEvent::dispatch('test-path');
         dump($res);
+        $res = event(new ExcelExportCompletedEvent('asdfdsfdsfds'));
+        dump($res);
     }
 }

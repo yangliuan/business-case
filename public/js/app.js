@@ -25902,7 +25902,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: 'yangliuan',
   wsHost: window.location.hostname,
   wsPort: 6001,
-  forceTLS: false
+  forceTLS: false,
+  enabledTransports: ['ws', 'wss']
 });
 window.Echo.channel('excel').listen('ExcelExportCompletedEvent', function (e) {
   console.log(e);
