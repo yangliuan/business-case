@@ -85,11 +85,16 @@
             }
         },
         created() {
-
+            window.Echo.channel('excel')
+                .listen('ExcelExportCompletedEvent', (e) => {
+                    this.downloadExcel(e.excel_path)
+                    console.log(e);
+                })
         },
         methods: {
-            listenExcelDownloadChannel: function () {
-
+            downloadExcel(excel_path) {
+                const download_url =  '/api/files/download?storage_path=' + excel_path
+                window.open(download_url)
             }
         }
     })

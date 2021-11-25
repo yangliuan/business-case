@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilesCase\UploadsController;
 use App\Http\Controllers\ExcelCase\ExportController;
+use App\Http\Controllers\FilesCase\DownloadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::prefix('files')->group(function () {
-    Route::post('upload', [UploadsController::class,'upload']);
+    Route::post('upload', [UploadsController::class,'upload']);//上传文件
+    Route::get('download', [DownloadController::class,'store']);//下载文件
 });
 Route::prefix('excel')->group(function () {
     Route::prefix('export')->group(function () {

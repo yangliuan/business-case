@@ -19666,9 +19666,20 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {};
   },
-  created: function created() {},
+  created: function created() {
+    var _this = this;
+
+    window.Echo.channel('excel').listen('ExcelExportCompletedEvent', function (e) {
+      _this.downloadExcel(e.excel_path);
+
+      console.log(e);
+    });
+  },
   methods: {
-    listenExcelDownloadChannel: function listenExcelDownloadChannel() {}
+    downloadExcel: function downloadExcel(excel_path) {
+      var download_url = '/api/files/download?storage_path=' + excel_path;
+      window.open(download_url);
+    }
   }
 }));
 
@@ -25904,9 +25915,6 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsPort: 6001,
   forceTLS: false,
   enabledTransports: ['ws', 'wss']
-});
-window.Echo.channel('excel').listen('ExcelExportCompletedEvent', function (e) {
-  console.log(e);
 });
 
 /***/ }),

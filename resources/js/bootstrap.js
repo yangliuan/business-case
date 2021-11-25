@@ -28,8 +28,3 @@ window.Echo = new Echo({
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
 });
-
-window.Echo.channel('excel')
-    .listen('ExcelExportCompletedEvent', (e) => {
-        console.log(e);
-    })

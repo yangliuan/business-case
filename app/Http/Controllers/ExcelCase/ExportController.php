@@ -82,9 +82,7 @@ class ExportController extends Controller
 
     public function test(Request $request)
     {
-        $res = ExcelExportCompletedEvent::dispatch('test-path');
-        dump($res);
-        $res = event(new ExcelExportCompletedEvent('asdfdsfdsfds'));
+        $res = ExcelExportCompletedEvent::dispatch('excel-demo 20211124172043.xlsx');
         dump($res);
     }
 }
