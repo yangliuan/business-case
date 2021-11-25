@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Events\ExcelExportCompletedEvent;
 use App\Models\ExcelDemo;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -16,14 +15,8 @@ class ExcelDemoPictureQueryExport implements FromQuery, WithHeadings, WithMappin
 {
     use Exportable;
 
-    protected $excel_path;
-
-    protected $disk;
-
-    public function __construct(string $excel_path, string $disk)
+    public function __construct()
     {
-        $this->excel_path = $excel_path;
-        $this->disk = $disk;
     }
 
     /**
@@ -35,8 +28,7 @@ class ExcelDemoPictureQueryExport implements FromQuery, WithHeadings, WithMappin
     public function query()
     {
         return ExcelDemo::query()
-            ->where('id', '>', 0)
-            ->limit(10000);
+            ->where('id', '<=', 10000);
     }
 
     /**
@@ -80,7 +72,7 @@ class ExcelDemoPictureQueryExport implements FromQuery, WithHeadings, WithMappin
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
                 $event->sheet->getColumnDimension('B')->setAutoSize(false)->setWidth(5);
-                $count = $this->query()->get()->count();//列数量
+                $count = $this->query()->count();//列数量
 
                 //基于行数迭代
                 for ($i=0;$i<$count;$i++) {
@@ -106,9 +98,6 @@ class ExcelDemoPictureQueryExport implements FromQuery, WithHeadings, WithMappin
                     //
                     $drawing->setWorksheet($event->sheet->getDelegate());
                 }
-
-                //广播通知
-                ExcelExportCompletedEvent::dispatch($this->excel_path, $this->disk);
             }
         ];
     }
