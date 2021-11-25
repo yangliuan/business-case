@@ -79,7 +79,7 @@ class ExportController extends Controller
      */
     public function queueImages(Request $request)
     {
-        $file_name = 'excel-demo-'.date('YmdHis').'.xlsx';
+        $file_name = 'excel-demo-'.date('YmdHis').\mt_rand(100000, 999999).'.xlsx';
         $disk = 'public';
         Excel::queue(new ExcelDemoPictureQueryExport(), $file_name, $disk)
         //导出成功后,使用任务链调用excel通知job
