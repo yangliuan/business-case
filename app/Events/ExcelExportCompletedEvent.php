@@ -16,14 +16,18 @@ class ExcelExportCompletedEvent implements ShouldBroadcast
 
     public $excel_path;
 
+    public $disk;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(string $excel_path)
+    public function __construct(string $excel_path, string $disk)
     {
         $this->excel_path = $excel_path;
+
+        $this->disk = $disk;
     }
 
     /**

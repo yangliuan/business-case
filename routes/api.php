@@ -30,6 +30,7 @@ Route::prefix('excel')->group(function () {
         Route::any('store', [ExportController::class,'storeDisk']);//存储到磁盘
         Route::any('queue', [ExportController::class,'queue']);//队列导出
         Route::any('download-images', [ExportController::class,'downloadImages']);//下载导出图片
+        Route::any('queue-images', [ExportController::class,'queueImages']);//队列导出图片并发送广播
         Route::get('test', [ExportController::class,'test']);
     });
     Route::prefix('import')->group(function () {

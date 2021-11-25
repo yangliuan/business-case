@@ -6,6 +6,7 @@ use App\Events\ExcelExportCompletedEvent;
 use App\Exports\ExcelDemoCollectionExport;
 use App\Exports\ExcelDemoQueryExport;
 use App\Exports\ExcelDemoPictureCollectionExport;
+use App\Exports\ExcelDemoPictureQueryExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -78,11 +79,16 @@ class ExportController extends Controller
      */
     public function queueImages(Request $request)
     {
+        $file_name = 'excel-demo '.date('YmdHis').'.xlsx';
+        $disk = 'public';
+        Excel::queue(new ExcelDemoPictureQueryExport($file_name, $disk), $file_name, $disk);
+
+        return response()->json();
     }
 
     public function test(Request $request)
     {
-        $res = ExcelExportCompletedEvent::dispatch('excel-demo 20211124172043.xlsx');
+        $res = ExcelExportCompletedEvent::dispatch('excel-demo 20211125185633.xlsx', 'public');
         dump($res);
     }
 }

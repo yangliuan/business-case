@@ -87,13 +87,13 @@
         created() {
             window.Echo.channel('excel')
                 .listen('ExcelExportCompletedEvent', (e) => {
-                    this.downloadExcel(e.excel_path)
+                    this.downloadExcel(e.excel_path,e.disk)
                     console.log(e);
                 })
         },
         methods: {
-            downloadExcel(excel_path) {
-                const download_url =  '/api/files/download?storage_path=' + excel_path
+            downloadExcel(excel_path,disk) {
+                const download_url =  '/api/files/download?storage_path=' + excel_path + '&disk=' + disk
                 window.open(download_url)
             }
         }
