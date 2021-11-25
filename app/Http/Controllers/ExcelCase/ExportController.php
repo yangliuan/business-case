@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ExcelCase;
 
+use App\Events\ExcelExportCompletedEvent;
 use App\Exports\ExcelDemoCollectionExport;
 use App\Exports\ExcelDemoQueryExport;
 use App\Exports\ExcelDemoPictureCollectionExport;
@@ -77,5 +78,11 @@ class ExportController extends Controller
      */
     public function queueImages(Request $request)
     {
+    }
+
+    public function test(Request $request)
+    {
+        $res = ExcelExportCompletedEvent::dispatch('test-path');
+        dump($res);
     }
 }

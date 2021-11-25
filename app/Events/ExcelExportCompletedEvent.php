@@ -35,4 +35,9 @@ class ExcelExportCompletedEvent implements ShouldBroadcast
     {
         return new Channel('download-excel');
     }
+
+    public function broadcastAs()
+    {
+        return 'excel.completed';
+    }
 }
