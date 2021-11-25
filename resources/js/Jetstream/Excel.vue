@@ -57,7 +57,7 @@
                                 </div>
                         </div>
                     </a>
-                    <a href="">
+                    <a href="#" @click="queueImagesClick">
                         <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                 <div>队列导出图片并用广播接受通知</div>
                                 <div class="ml-1 text-indigo-500">
@@ -87,6 +87,7 @@
         created() {
             window.Echo.channel('excel')
                 .listen('ExcelExportCompletedEvent', (e) => {
+                    alert('ExcelExportCompletedEvent')
                     this.downloadExcel(e.excel_path,e.disk)
                     console.log(e);
                 })
@@ -95,6 +96,11 @@
             downloadExcel(excel_path,disk) {
                 const download_url =  '/api/files/download?storage_path=' + excel_path + '&disk=' + disk
                 window.open(download_url)
+            },
+            queueImagesClick() {
+                axios.post('/api/excel/export/queue-images').then( response => {
+                    console.log(response)
+                })
             }
         }
     })
