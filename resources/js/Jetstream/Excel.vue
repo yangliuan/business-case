@@ -85,10 +85,7 @@
             }
         },
         created() {
-            Echo.channel('download-excel')
-            .listen('.excel.completed', (e) => {
-                console.log(e);
-            })
+
         },
         methods: {
             listenExcelDownloadChannel: function () {
