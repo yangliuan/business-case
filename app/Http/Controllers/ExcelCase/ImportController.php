@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ImportController extends Controller
 {
-    public function index(Request $request)
+    public function store(Request $request)
     {
     }
 }

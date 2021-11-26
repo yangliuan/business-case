@@ -6,6 +6,7 @@ use App\Exports\ExcelDemoCollectionExport;
 use App\Exports\ExcelDemoQueryExport;
 use App\Exports\ExcelDemoPictureCollectionExport;
 use App\Exports\ExcelDemoPictureQueryExport;
+use App\Exports\ExcelDemoSheetExport;
 use App\Http\Controllers\Controller;
 use App\Jobs\ExcelNotifyJob;
 use Illuminate\Http\Request;
@@ -69,6 +70,17 @@ class ExportController extends Controller
         //\set_time_limit(0);
         //\ini_set('memory_limit', '1024M');
         return Excel::download(new ExcelDemoPictureCollectionExport, 'excel-demo-'.date('YmdHis').'.xlsx');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function downloadMutilSheet(Request $request)
+    {
+        return Excel::download(new ExcelDemoSheetExport, 'excel-demo-'.date('YmdHis').'.xlsx');
     }
 
     /**
