@@ -55,7 +55,7 @@ class ExcelDemoQueryExport implements WithTitle, FromQuery, WithCustomQuerySize,
      * 通过使用 FromQuery 接口，我们可以为导出准备查询。在这个场景下，这个查询是分块执行的,适合大数据量导出
      *
      * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
-     * @return \Illuminate\Support\Collection
+     * @return
      */
     public function query()
     {
