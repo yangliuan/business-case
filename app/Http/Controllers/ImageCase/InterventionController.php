@@ -102,8 +102,9 @@ class InterventionController extends Controller
     {
         $img = Image::canvas(800, 600);
         $img->fill(public_path('img/avatar.jpeg'));
+        $img->save(storage_path('app/public/tile.jpeg'));
 
-        return $img->response();
+        return '<img src="' . asset('storage/tile.jpeg') . '"/>';
     }
 
     //绘制图形并响应为图片
@@ -123,38 +124,9 @@ class InterventionController extends Controller
     {
         $avatar = file_get_contents(public_path('img/test.jpeg'));
         $avatar = base64_encode($avatar);
-        return Image::make($avatar)->response('jpg');
-    }
+        Image::make($avatar)->save(storage_path('app/public/base64.jpeg'));
 
-    //适配裁切方式生成缩略图
-    public function thumbnail(Request $request)
-    {
-        $request->validate([
-            'image' => 'bail|required|image',
-        ]);
-
-        $width = 400;
-        $height = 400;
-
-        $img = Image::make($request->image)
-            ->fit($width, $height, function ($constraint) {
-                $constraint->upsize();
-            }, 'center')
-            ->save(storage_path('app/public/thumbnail.jpg'));
-
-        return '<img src="' . asset('storage/thumbnail.jpg') . '"/>';
-    }
-
-    //图片转换成webp
-    public function convertWebp(Request $request)
-    {
-        $request->validate([
-            'image' => 'bail|required|image',
-        ]);
-        $savePath = storage_path('app/public/') . time() . '.webp';
-        $uploadImage = Image::make($request->image)->save($savePath, 75);
-
-        return response()->file($savePath);
+        return '<img src="' . asset('storage/base64.jpeg') . '"/>';
     }
 
     //保持尺寸压缩图片大小
@@ -209,5 +181,37 @@ class InterventionController extends Controller
         $uploadImage->save(storage_path('app/public/upload-img.' . $extension), '75', $extension);
 
         return '<img src="' . asset('storage/upload-img.' . $extension) . '"/>';
+    }
+
+    //适配裁切方式生成缩略图
+    public function thumbnail(Request $request)
+    {
+        $request->validate([
+             'image' => 'bail|required|image',
+         ]);
+
+        $width = 400;
+        $height = 400;
+
+        Image::make($request->image)
+             ->fit($width, $height, function ($constraint) {
+                 $constraint->upsize();
+             }, 'center')
+             ->save(storage_path('app/public/thumbnail.jpg'));
+
+        return '<img src="' . asset('storage/thumbnail.jpg') . '"/>';
+    }
+
+    //图片转换成格式
+    public function convert(Request $request)
+    {
+        $request->validate([
+            'image' => 'bail|required|image',
+        ]);
+
+        $savePath = storage_path('app/public/') . time() . '.webp';
+        $uploadImage = Image::make($request->image)->save($savePath, 75);
+
+        return response()->file($savePath);
     }
 }

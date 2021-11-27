@@ -50,6 +50,6 @@ Route::prefix('image')->group(function () {
         Route::any('readbase64', [InterventionController::class,'readBase64']);//读取base64格式图片
         Route::any('compress', [InterventionController::class,'compress']);//压缩图片
         Route::any('thumbnail', [InterventionController::class,'thumbnail']);//缩略图
-        Route::any('convert-webp', [InterventionController::class,'convertWebp']);//转换为webp
+        Route::any('convert', [InterventionController::class,'convert']);//转换为webp
     });
 });

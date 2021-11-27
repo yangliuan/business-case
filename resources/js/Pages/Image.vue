@@ -34,62 +34,86 @@
                                 <div class="mt-2 text-sm text-gray-500">
                                     常用功能
                                 </div>
-                                <a href="/api/image/intervertion/water-marker" target="_blank">
+                                <Link href="/api/image/intervertion/water-marker" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>生成水印</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
-                                <a href="/api/image/intervertion/picword-watermark" target="_blank">
+                                </Link>
+                                <Link href="/api/image/intervertion/picword-watermark" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>图文混合水印，自动适配图片大小</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
-                                <a href="/api/image/intervertion/mask-cut-round" target="_blank">
+                                </Link>
+                                <Link href="/api/image/intervertion/mask-cut-round" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>使用图层蒙版裁切成指定形状</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
-                                <a href="/api/image/intervertion/draw-graphics" target="_blank">
+                                </Link>
+                                <Link href="/api/image/intervertion/draw-graphics" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>海报绘制圆形头像</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
+                                </Link>
                                 <a href="/api/image/intervertion/response-img" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
-                                            <div>响应为图片</div>
+                                            <div>绘制图形并响应为图片</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
                                 </a>
-                                <a href="/api/image/intervertion/tile" target="_blank">
+                                <Link href="/api/image/intervertion/tile" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>平铺填充</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
-                                <a href="/api/image/intervertion/readbase64" target="_blank">
+                                </Link>
+                                <Link href="/api/image/intervertion/readbase64" target="_blank">
                                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                                             <div>读取base64格式图片</div>
                                             <div class="ml-1 text-indigo-500">
                                                 <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                             </div>
                                     </div>
-                                </a>
+                                </Link>
+                                <Link href="/image-compress" >
+                                    <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                                        <div>图片压缩</div>
+                                        <div class="ml-1 text-indigo-500">
+                                            <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <Link href="/image-thumbnail" >
+                                    <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                                        <div>适配裁切方式生成缩略图</div>
+                                        <div class="ml-1 text-indigo-500">
+                                            <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <Link href="/image-convert" >
+                                    <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
+                                        <div>图片转换格式</div>
+                                        <div class="ml-1 text-indigo-500">
+                                            <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                        </div>
+                                    </div>
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -101,13 +125,16 @@
 
 <script>
     import { defineComponent } from 'vue'
+    import { Link } from '@inertiajs/inertia-vue3'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
+
 
     export default defineComponent({
         components: {
             AppLayout,
-            JetApplicationLogo
+            JetApplicationLogo,
+            Link
         },
     })
 </script>

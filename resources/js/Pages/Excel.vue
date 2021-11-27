@@ -95,17 +95,14 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
+    import { Link } from '@inertiajs/inertia-vue3'
     import { echo } from '@/laravel-echo'
 
     export default defineComponent({
         components: {
             AppLayout,
             JetApplicationLogo,
-        },
-        data() {
-            return {
-
-            }
+            Link
         },
         created() {
             echo.channel('excel')

@@ -37,4 +37,16 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/image', function () {
         return Inertia::render('Image');
     })->name('image');
+
+    Route::get('/image-compress', function () {
+        return Inertia::render('ImageCompress');
+    })->name('image-compress');
+
+    Route::get('/image-thumbnail', function () {
+        return Inertia::render('ImageThumbnail');
+    })->name('image-thumbnail');
+
+    Route::get('/image-convert', function () {
+        return Inertia::render('ImageConvert');
+    })->name('image-convert');
 });
