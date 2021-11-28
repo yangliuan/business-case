@@ -85,6 +85,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="bg-gray-200 bg-opacity-25 grid grid-cols-1 md:grid-cols-2">
+                        <import-form />
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +98,7 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
+    import ImportForm from '@/Jetstream/ImportForm.vue'
     import { Link } from '@inertiajs/inertia-vue3'
     import { echo } from '@/laravel-echo'
 
@@ -102,7 +106,8 @@
         components: {
             AppLayout,
             JetApplicationLogo,
-            Link
+            Link,
+            ImportForm
         },
         created() {
             echo.channel('excel')

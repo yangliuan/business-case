@@ -1,24 +1,22 @@
 <template>
-    <div class="antialiased text-gray-900 px-6">
-        <form @submit.prevent="wordConvertHtml">
-            <label>
-                <span>word文件</span>
-                <input type="file" @input="form.word = $event.target.files[0]" />
-            </label>
-            <progress v-if="form.progress" :value="form.progress.percentage" max="100">
-            {{ form.progress.percentage }}%
-            </progress>
-            <button type="submit">word转html</button>
-        </form>
-        <br>
-        <form @submit.prevent="htmlConvertWord">
-            <label>
-                <span>url</span>
-                <input type="text" v-model="form1.url" />
-            </label>
-            <button type="submit">html转word</button>
-        </form>
-    </div>
+    <form @submit.prevent="wordConvertHtml">
+        <label>
+            <span>word文件</span>
+            <input type="file" @input="form.word = $event.target.files[0]" />
+        </label>
+        <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+        {{ form.progress.percentage }}%
+        </progress>
+        <button type="submit">word转html</button>
+    </form>
+    <br>
+    <form @submit.prevent="htmlConvertWord">
+        <label>
+        <span>url</span>
+            <input type="text" v-model="form1.url" />
+        </label>
+        <button type="submit">html转word</button>
+    </form>
 </template>
 
 <script>

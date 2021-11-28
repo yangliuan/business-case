@@ -31,9 +31,6 @@
                             </div>
 
                             <div class="ml-12">
-                                <div class="mt-2 text-sm text-gray-500">
-                                    常用功能
-                                </div>
                                 <word-form />
                             </div>
                         </div>
@@ -48,7 +45,6 @@
     import { defineComponent } from 'vue'
     import AppLayout from '@/Layouts/AppLayout.vue'
     import JetApplicationLogo from '@/Jetstream/ApplicationLogo.vue'
-    import { Link } from '@inertiajs/inertia-vue3'
     import WordForm from '@/Jetstream/WordForm.vue'
 
     export default defineComponent({
