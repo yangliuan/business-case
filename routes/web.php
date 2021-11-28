@@ -49,4 +49,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/image-convert', function () {
         return Inertia::render('ImageConvert');
     })->name('image-convert');
+
+    Route::get('/word', function () {
+        return Inertia::render('Word');
+    })->name('word');
 });

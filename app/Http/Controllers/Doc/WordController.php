@@ -81,7 +81,6 @@ class WordController extends Controller
         @$doc->loadHTML($html);
         $htmlContent = $doc->saveHTML();
         dd($htmlContent);
-
         $phpword = new PhpWord();
         $section = $phpword->addSection();
         Html::addHtml($section, $htmlContent, true, true);

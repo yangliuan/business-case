@@ -1,11 +1,13 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilesCase\UploadsController;
 use App\Http\Controllers\ExcelCase\ExportController;
 use App\Http\Controllers\FilesCase\DownloadController;
 use App\Http\Controllers\ImageCase\InterventionController;
+use App\Http\Controllers\Doc\WordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +20,11 @@ use App\Http\Controllers\ImageCase\InterventionController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);//上传文件
     Route::get('download', [DownloadController::class,'store']);//下载文件
 });
+
 Route::prefix('excel')->group(function () {
     Route::prefix('export')->group(function () {
         Route::any('download', [ExportController::class,'download']);//下载导出
@@ -38,6 +38,14 @@ Route::prefix('excel')->group(function () {
     Route::prefix('import')->group(function () {
     });
 });
+
+Route::prefix('doc')->group(function () {
+    Route::group(['prefix' => 'word'], function () {
+        Route::post('word-to-html', [WordController::class,'wordConvertHtml']);//word转html
+        Route::post('html-to-word', [WordController::class,'htmlConvertWord']);//转换成word
+    });
+});
+
 Route::prefix('image')->group(function () {
     Route::group(['prefix' => 'intervertion'], function () {
         Route::any('water-marker', [InterventionController::class,'waterMarker']);//生成水印

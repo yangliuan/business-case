@@ -30,7 +30,7 @@
                                     <form @submit.prevent="submit">
                                         <label class="block">
                                             <span class="text-gray-700">压缩方式</span>
-                                            <select class="form-select block w-full mt-1">
+                                            <select class="form-select block w-full mt-1" v-model="form.compress" >
                                                 <option>original</option>
                                                 <option>wechat</option>
                                             </select>
