@@ -8,6 +8,7 @@ use App\Http\Controllers\ExcelCase\ExportController;
 use App\Http\Controllers\FilesCase\DownloadController;
 use App\Http\Controllers\ImageCase\InterventionController;
 use App\Http\Controllers\Doc\WordController;
+use App\Http\Controllers\ExcelCase\ImportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,7 @@ Route::prefix('excel')->group(function () {
         Route::any('test', [ExportController::class,'test']);
     });
     Route::prefix('import')->group(function () {
+        Route::post('normal-collection', [ImportController::class,'normalCollection']); //普通使用集合导入
     });
 });
 

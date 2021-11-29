@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\Excels\Exports;
 
-use App\Exports\Sheets\ExcelDemoByIDSheet;
+use App\Excels\Exports\Sheets\ExcelDemoByIDSheet;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 

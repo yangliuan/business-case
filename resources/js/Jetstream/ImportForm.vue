@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit.prevent="importExcel">
+        <form @submit.prevent="importExcelNormalCollection">
             <label>
                 <span>excel文件</span>
                 <input type="file" @input="form.excel = $event.target.files[0]" />
@@ -40,8 +40,8 @@ export default {
             excel: null
         })
 
-        function importExcel() {
-            form.post('/api/doc/word/word-to-html')
+        function importExcelNormalCollection() {
+            form.post('/api/excel/import/normal-collection')
         }
 
         const form1 = useForm({
@@ -52,7 +52,7 @@ export default {
             form1.post('/api/doc/word/word-to-html')
         }
 
-        return { form, importExcel, form1, queueImportExcel }
+        return { form, importExcelNormalCollection, form1, queueImportExcel }
     },
 }
 </script>

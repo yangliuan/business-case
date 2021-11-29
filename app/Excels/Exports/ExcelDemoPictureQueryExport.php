@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Exports;
+namespace App\Excels\Exports;
 
 use App\Models\ExcelDemo;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, WithMapping, WithEvents
+class ExcelDemoPictureQueryExport implements FromQuery, WithHeadings, WithMapping, WithEvents
 {
     use Exportable;
 
@@ -26,14 +25,10 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     * DOC:https://docs.laravel-excel.com/3.1/exports/from-query.html
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
+    public function query()
     {
-        $demos = ExcelDemo::query()
-            ->where('id', '>', 0)
-            ->limit(10000)
-            ->cursor();
-
-        return $demos;
+        return ExcelDemo::query()
+            ->where('id', '<=', 10000);
     }
 
     /**
@@ -77,7 +72,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
             AfterSheet::class => function (AfterSheet $event) {
                 //设置图片列的宽度等于图片宽度，和取消自动设置尺寸
                 $event->sheet->getColumnDimension('B')->setAutoSize(false)->setWidth(5);
-                $count = $this->collection()->count();//列数量
+                $count = $this->query()->count();//列数量
 
                 //基于行数迭代
                 for ($i=0;$i<$count;$i++) {
@@ -86,7 +81,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
                 }
 
                 //遍历数据 取图片字段并设置位置生成图片
-                foreach ($this->collection() as $key => $value) {
+                foreach ($this->query()->get() as $key => $value) {
                     $drawing = new Drawing();
                     $drawing->setName('image');
                     $drawing->setDescription('image');

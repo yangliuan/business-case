@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\ExcelCase;
 
-use App\Exports\ExcelDemoCollectionExport;
-use App\Exports\ExcelDemoQueryExport;
-use App\Exports\ExcelDemoPictureCollectionExport;
-use App\Exports\ExcelDemoPictureQueryExport;
-use App\Exports\ExcelDemoSheetExport;
+use App\Excels\Exports\ExcelDemoCollectionExport;
+use App\Excels\Exports\ExcelDemoQueryExport;
+use App\Excels\Exports\ExcelDemoPictureCollectionExport;
+use App\Excels\Exports\ExcelDemoPictureQueryExport;
+use App\Excels\Exports\ExcelDemoSheetExport;
 use App\Http\Controllers\Controller;
 use App\Jobs\ExcelNotifyJob;
 use Illuminate\Http\Request;

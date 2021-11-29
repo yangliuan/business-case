@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Imports;
+namespace App\Excels\Imports;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 
-class ExcelDemoCollectionImport implements ToCollection
+class ExcelDemoModelImport implements ToCollection
 {
     /**
     * @param Collection $collection

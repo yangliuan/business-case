@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports\Sheets;
+namespace App\Excels\Exports\Sheets;
 
 use App\Models\ExcelDemo;
 use Maatwebsite\Excel\Concerns\FromQuery;
