@@ -80,7 +80,7 @@ class ExcelDemoCollectionImport implements ToCollection, WithChunkReading, WithH
      */
     public function chunkSize(): int
     {
-        return 1100;
+        return 1000;
     }
 
     /**
