@@ -38,6 +38,7 @@ Route::prefix('excel')->group(function () {
     });
     Route::prefix('import')->group(function () {
         Route::post('normal-collection', [ImportController::class,'normalCollection']); //普通使用集合导入
+        Route::post('normal-model', [ImportController::class,'normalModel']); //普通使用集合导入
     });
 });
 
