@@ -1,4 +1,4 @@
-//测试用例23567条数据，内存4096M
+//测试用例23567条数据，内存4096M,使用colletion 批量方式导入
 //chunkSize=1 nginx504;废除
 //chunkSize=100
 //first=>postman:6m20.82s,telescope:380723ms|second=>postman:6m21.78s,telescope:381700ms|3rd=>postman:6m28.50s,telescope:388458ms

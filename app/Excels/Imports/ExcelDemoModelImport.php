@@ -90,7 +90,7 @@ class ExcelDemoModelImport implements ToModel, WithHeadingRow, WithUpserts, With
      */
     public function chunkSize(): int
     {
-        return 1000;
+        return 23560;
     }
 
     /**
@@ -101,6 +101,6 @@ class ExcelDemoModelImport implements ToModel, WithHeadingRow, WithUpserts, With
      */
     public function batchSize(): int
     {
-        return 1000;
+        return 23560;
     }
 }
