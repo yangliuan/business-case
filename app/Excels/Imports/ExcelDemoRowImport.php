@@ -7,6 +7,10 @@ use Maatwebsite\Excel\Concerns\OnEachRow;
 
 class ExcelDemoRowImport implements OnEachRow
 {
+    /**
+     *
+     * DOC:https://docs.laravel-excel.com/3.1/imports/model.html#handling-persistence-on-your-own
+     */
     public function onRow(Row $row)
     {
         $row_index = $row->getIndex();
