@@ -39,6 +39,7 @@ Route::prefix('excel')->group(function () {
     Route::prefix('import')->group(function () {
         Route::post('normal-collection', [ImportController::class,'normalCollection']); //使用集合导入
         Route::post('normal-model', [ImportController::class,'normalModel']); //使用模型导入
+        Route::post('queue-row', [ImportController::class,'queueRow']); //使用Row导入
     });
 });
 
