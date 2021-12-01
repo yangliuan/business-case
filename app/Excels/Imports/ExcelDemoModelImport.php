@@ -37,7 +37,7 @@ class ExcelDemoModelImport implements ToModel, WithHeadingRow, WithUpserts, With
      */
     public function model(array $rows)
     {
-        //记住行号，仅支持ToModel
+        //记住行号，仅支持ToModel,可以用来记录第几行报错
         //DOC:https://docs.laravel-excel.com/3.1/imports/chunk-reading.html#keep-track-of-the-row-number
         $current_row_number = $this->getRowNumber();
         Log::info('行号:'. $current_row_number);
