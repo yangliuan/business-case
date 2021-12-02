@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
-use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 
 class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
@@ -54,60 +54,18 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
      * DOC:https://docs.laravel-excel.com/3.1/imports/extending.html#auto-register-event-listeners
      * phpspreadsheet读取图片
      * DOC:https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#reading-images-from-a-worksheet
+     * REF:https://learnku.com/laravel/t/58629
      *
      * @param BeforeImport $event
      *
      * @return void
      */
-    public static function beforeSheet(BeforeSheet $event)
+    public static function afterSheet(AfterSheet $event)
     {
-        dd($event->sheet);
+        dd($event->sheet->getDelegate()->getDrawingCollection());
         $i = 0;
-        foreach ($event->sheet->getActiveSheet()->getDrawingCollection() as  $drawing) {
-            if ($drawing instanceof MemoryDrawing) {
-                ob_start();
-                call_user_func(
-                    $drawing->getRenderingFunction(),
-                    $drawing->getImageResource()
-                );
-                $imageContents = ob_get_contents();
-                ob_end_clean();
-                switch ($drawing->getMimeType()) {
-                    case MemoryDrawing::MIMETYPE_PNG:
-                        $extension = 'png';
-                        break;
-                    case MemoryDrawing::MIMETYPE_GIF:
-                        $extension = 'gif';
-                        break;
-                    case MemoryDrawing::MIMETYPE_JPEG:
-                        $extension = 'jpg';
-                        break;
-                }
-            } else {
-                if ($drawing->getPath()) {
-                    // Check if the source is a URL or a file path
-                    if ($drawing->getIsURL()) {
-                        $imageContents = file_get_contents($drawing->getPath());
-                        $filePath = tempnam(sys_get_temp_dir(), 'Drawing');
-                        file_put_contents($filePath, $imageContents);
-                        $mimeType = mime_content_type($filePath);
-                        // You could use the below to find the extension from mime type.
-                        // https://gist.github.com/alexcorvi/df8faecb59e86bee93411f6a7967df2c#gistcomment-2722664
-                        $extension = File::mime2ext($mimeType);
-                        unlink($filePath);
-                    } else {
-                        $zipReader = fopen($drawing->getPath(), 'r');
-                        $imageContents = '';
-                        while (!feof($zipReader)) {
-                            $imageContents .= fread($zipReader, 1024);
-                        }
-                        fclose($zipReader);
-                        $extension = $drawing->getExtension();
-                    }
-                }
-            }
-            $myFileName = '00_Image_'.++$i.'.'.$extension;
-            file_put_contents($myFileName, $imageContents);
+        foreach ($event->sheet->getDelegate()->getDrawingCollection() as $drawing) {
+            dd($drawing);
         }
     }
 }
