@@ -50,7 +50,7 @@ class ExcelDemoCollectionExport implements WithTitle, FromCollection, WithMappin
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            ->limit(100000)
+            ->limit(2000)
             //使用cursor可以有效降低内存使用,不导出图片的情况下，10万条测试没有问题
             //不能用于队列导出
             //DOC:https://learnku.com/laravel/t/42018#reply208957
