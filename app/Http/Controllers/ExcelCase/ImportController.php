@@ -72,9 +72,9 @@ class ImportController extends Controller
         \set_time_limit(0);
         \ignore_user_abort(true);
         $pathInfo = pathinfo($request->file('excel')->getClientOriginalName());
-        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], 'public');
-        Excel::import(new ExcelDemoRowImport, $path, 'public');
-        Storage::disk('public')->delete($path);
+        $disk = 'public';
+        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], $disk);
+        Excel::import(new ExcelDemoRowImport($disk, $path), $path, $disk);
 
         return response()->json();
     }
