@@ -146,6 +146,7 @@ class ExcelDemoQueryExport implements WithTitle, FromQuery, WithCustomQuerySize,
      * 设置样式 版本v3.1.21 以后
      * DOC:https://docs.laravel-excel.com/3.1/exports/column-formatting.html#styling
      * DOC:https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#styles
+     *
      * @param Worksheet $sheet
      * @return array
      */

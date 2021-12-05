@@ -30,7 +30,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            ->limit(2000)
+            ->limit(100)
             ->cursor();
 
         return $demos;
@@ -66,8 +66,9 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     /**
      * 将字段url自动转为图片
      *
-     * DOC:https://learnku.com/laravel/t/49171
-     * DOC:https://laravelquestions.com/2021/03/01/export-images-with-laravel-excel/
+     * REF:https://learnku.com/laravel/t/49171
+     * REF:https://laravelquestions.com/2021/03/01/export-images-with-laravel-excel/
+     * DOC:https://phpspreadsheet.readthedocs.io/en/latest/topics/recipes/#add-a-drawing-to-a-worksheet
      *
      * @return array
      */
