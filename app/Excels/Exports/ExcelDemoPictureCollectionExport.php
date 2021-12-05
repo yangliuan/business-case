@@ -44,7 +44,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     public function headings(): array
     {
         return [
-            'ID',
+            '整数',
             '图片',
         ];
     }
@@ -58,7 +58,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     public function map($demo): array
     {
         return [
-            $demo->id,
+            $demo->int_column,
             '',
         ];
     }
@@ -92,7 +92,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
                     $drawing->setName('image');
                     $drawing->setDescription('image');
                     //如果图片是远程地址需要先下载到本地，生成完成后删除
-                    $drawing->setPath(public_path($value->pic_column));
+                    $drawing->setPath(storage_path('app/public/'.$value->pic_column));
                     //设置图片高度
                     $drawing->setHeight(33);
                     //x轴偏移量

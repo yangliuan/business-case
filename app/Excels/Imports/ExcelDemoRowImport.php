@@ -85,16 +85,17 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
                 fclose($zipReader);
                 $extension = $drawing->getExtension();
             }
-        }
 
-        $my_file_name = 'excel_upload/'. md5(time().mt_rand(100000, 999999)) . '.' . $extension;
-        $put_res = Storage::disk($this->disk)->put($my_file_name, $image_contents);
-        //保存图片成功
-        if ($put_res) {
-            ExcelDemo::create([
-                'int_column'=>$row['ID'],//将id存入数字字段，看一下图片和数据行数是否匹配
-                'pic_column'=>$my_file_name
-            ]);
+            $my_file_name = 'excel_upload/'. md5(time().mt_rand(100000, 999999)) . '.' . $extension;
+            $put_res = Storage::disk($this->disk)->put($my_file_name, $image_contents);
+
+            //保存图片成功
+            if ($put_res) {
+                ExcelDemo::create([
+                    'int_column'=>$row['整数'],//将id存入数字字段，看一下图片和数据行数是否匹配
+                    'pic_column'=>$my_file_name
+                ]);
+            }
         }
     }
 
@@ -111,6 +112,6 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
 
     public static function afterImport(AfterImport $event)
     {
-        Storage::disk(self::$disk)->delete(self::$excel_path);
+        //Storage::disk(self::$disk)->delete(self::$excel_path);
     }
 }
