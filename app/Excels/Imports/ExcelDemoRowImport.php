@@ -55,47 +55,46 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
         //excel完整路径
         $full_path = Storage::disk($this->disk)->path($this->excel_path);
         $spreadsheet = IOFactory::load($full_path);
+        $drawing = $spreadsheet->getActiveSheet()->getDrawingCollection()[$row_index-2];
 
-        foreach ($spreadsheet->getActiveSheet()->getDrawingCollection() as $drawing) {
-            if ($drawing instanceof MemoryDrawing) {
-                ob_start();
-                call_user_func(
-                    $drawing->getRenderingFunction(),
-                    $drawing->getImageResource()
-                );
-                $image_contents = ob_get_contents();
-                ob_end_clean();
-                switch ($drawing->getMimeType()) {
-                    case MemoryDrawing::MIMETYPE_PNG:
-                        $extension = 'png';
-                        break;
-                    case MemoryDrawing::MIMETYPE_GIF:
-                        $extension = 'gif';
-                        break;
-                    case MemoryDrawing::MIMETYPE_JPEG:
-                        $extension = 'jpg';
-                        break;
-                }
-            } else {
-                $zipReader = fopen($drawing->getPath(), 'r');
-                $image_contents = '';
-                while (!feof($zipReader)) {
-                    $image_contents .= fread($zipReader, 1024);
-                }
-                fclose($zipReader);
-                $extension = $drawing->getExtension();
+        if ($drawing instanceof MemoryDrawing) {
+            ob_start();
+            call_user_func(
+                $drawing->getRenderingFunction(),
+                $drawing->getImageResource()
+            );
+            $image_contents = ob_get_contents();
+            ob_end_clean();
+            switch ($drawing->getMimeType()) {
+                case MemoryDrawing::MIMETYPE_PNG:
+                    $extension = 'png';
+                    break;
+                case MemoryDrawing::MIMETYPE_GIF:
+                    $extension = 'gif';
+                    break;
+                case MemoryDrawing::MIMETYPE_JPEG:
+                    $extension = 'jpg';
+                    break;
             }
-
-            $my_file_name = 'excel_upload/'. md5(time().mt_rand(100000, 999999)) . '.' . $extension;
-            $put_res = Storage::disk($this->disk)->put($my_file_name, $image_contents);
-
-            //保存图片成功
-            if ($put_res) {
-                ExcelDemo::create([
-                    'int_column'=>$row['整数'],//将id存入数字字段，看一下图片和数据行数是否匹配
-                    'pic_column'=>$my_file_name
-                ]);
+        } else {
+            $zipReader = fopen($drawing->getPath(), 'r');
+            $image_contents = '';
+            while (!feof($zipReader)) {
+                $image_contents .= fread($zipReader, 1024);
             }
+            fclose($zipReader);
+            $extension = $drawing->getExtension();
+        }
+
+        $my_file_name = 'excel_upload/'. md5(time().mt_rand(100000, 999999)) . '.' . $extension;
+        $put_res = Storage::disk($this->disk)->put($my_file_name, $image_contents);
+
+        //保存图片成功
+        if ($put_res) {
+            ExcelDemo::create([
+                'int_column'=>$row['整数'],//将id存入数字字段，看一下图片和数据行数是否匹配
+                'pic_column'=>$my_file_name
+            ]);
         }
     }
 
