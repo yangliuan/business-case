@@ -18,7 +18,7 @@ class CreateExcelDemosTable extends Migration
             $table->text('text_column')->nullable()->comment('文本字段');
             $table->timestamps();
         });
-        DB::statement("ALTER TABLE excel_demos comment 'excel demo'");
+        DB::statement("ALTER TABLE excel_demos comment 'excel导入demo表'");
     }
 
     public function down()
