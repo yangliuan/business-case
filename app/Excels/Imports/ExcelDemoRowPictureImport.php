@@ -9,23 +9,27 @@ use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Events\AfterImport;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Worksheet\MemoryDrawing;
 
-class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
+class ExcelDemoRowPictureImport implements OnEachRow, WithHeadingRow, WithEvents
 {
-    use Importable,RegistersEventListeners;
+    use Importable;
 
     public $disk;
 
     public $excel_path;
 
+    public $drawing_collection;
+
     public function __construct(string $disk, string $excel_path)
     {
         $this->disk = $disk;
         $this->excel_path = $excel_path;
+
+        $full_path = Storage::disk($disk)->path($excel_path);
+        $this->drawing_collection = $this->loadDrawingCollection($full_path);
     }
 
     /**
@@ -52,10 +56,51 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
     {
         $row_index = $row->getIndex();
         $row = $row->toArray();
-        //excel完整路径
-        $full_path = Storage::disk($this->disk)->path($this->excel_path);
+        //计算，数据行索引对应的图片集合索引
+        $drawing_index = $row_index - $this->headingRow() - 1;
+        ExcelDemo::create([
+            'int_column'=>$row['整数'],
+            'pic_column'=>$this->storeExcelImage($drawing_index),
+        ]);
+    }
+
+    /**
+     * 分块读取，大数据量必须要用，否则会占用很多内存导致内存溢出
+     * DOC:https://docs.laravel-excel.com/3.1/imports/chunk-reading.html
+     *
+     * @return integer
+     */
+    public function chunkSize(): int
+    {
+        return 1000;
+    }
+
+    /**
+     * 加载图片集合
+     *
+     * @param string $full_path
+     * @return array
+     */
+    public function loadDrawingCollection(string $full_path)
+    {
         $spreadsheet = IOFactory::load($full_path);
-        $drawing = $spreadsheet->getActiveSheet()->getDrawingCollection()[$row_index-2];
+
+        return $spreadsheet->getActiveSheet()->getDrawingCollection();
+    }
+
+    /**
+     * 保存excel图片
+     *
+     * @param integer $drawing_index 每行数据对应的图片集合索引
+     * @return string
+     */
+    public function storeExcelImage(int $drawing_index)
+    {
+        if (!isset($this->drawing_collection[$drawing_index])) {
+            return '';
+        }
+
+        $drawing = $this->drawing_collection[$drawing_index];
 
         if ($drawing instanceof MemoryDrawing) {
             ob_start();
@@ -79,9 +124,11 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
         } else {
             $zipReader = fopen($drawing->getPath(), 'r');
             $image_contents = '';
+
             while (!feof($zipReader)) {
                 $image_contents .= fread($zipReader, 1024);
             }
+
             fclose($zipReader);
             $extension = $drawing->getExtension();
         }
@@ -89,28 +136,25 @@ class ExcelDemoRowImport implements OnEachRow, WithHeadingRow, WithEvents
         $my_file_name = 'excel_upload/'. md5(time().mt_rand(100000, 999999)) . '.' . $extension;
         $put_res = Storage::disk($this->disk)->put($my_file_name, $image_contents);
 
-        //保存图片成功
         if ($put_res) {
-            ExcelDemo::create([
-                'int_column'=>$row['整数'],//将id存入数字字段，看一下图片和数据行数是否匹配
-                'pic_column'=>$my_file_name
-            ]);
+            return $my_file_name;
         }
+
+        return '';
     }
 
     /**
-     * 分块读取，大数据量必须要用，否则会占用很多内存导致内存溢出
-     * DOC:https://docs.laravel-excel.com/3.1/imports/chunk-reading.html
+     * 手动注册事件
+     * DOC:https://docs.laravel-excel.com/3.1/imports/extending.html#events
      *
-     * @return integer
+     * @return array
      */
-    public function chunkSize(): int
+    public function registerEvents(): array
     {
-        return 1000;
-    }
-
-    public static function afterImport(AfterImport $event)
-    {
-        //Storage::disk(self::$disk)->delete(self::$excel_path);
+        return [
+            AfterImport::class => function (AfterImport $event) {
+                Storage::disk($this->disk)->delete($this->excel_path);
+            }
+        ];
     }
 }
