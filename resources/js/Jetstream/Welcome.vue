@@ -10,7 +10,7 @@
             </div>
 
             <div class="mt-6 text-gray-500">
-                基于laravel技术栈解决业务需求的案例 做一名优秀的"CV搬砖工程师"
+                基于laravel技术栈解决业务需求的案例 做一名优秀的解决方案工程师
             </div>
         </div>
 
