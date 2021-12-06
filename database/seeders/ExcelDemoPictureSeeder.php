@@ -28,7 +28,7 @@ class ExcelDemoPictureSeeder extends Seeder
         $at = now();
         $data = [];
 
-        for ($i=1; $i <= 100; $i++) {
+        for ($i=1; $i <= 10000; $i++) {
             $pic_name = 'excel_pic/avatar_'.$i.'.jpeg';
             $text = 'ID:'.$i;
             //根据序号生成图片，并增加序号水印

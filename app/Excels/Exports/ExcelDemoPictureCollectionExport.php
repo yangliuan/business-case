@@ -30,7 +30,7 @@ class ExcelDemoPictureCollectionExport implements FromCollection, WithHeadings, 
     {
         $demos = ExcelDemo::query()
             ->where('id', '>', 0)
-            ->limit(100)
+            ->limit(10000)
             ->cursor();
 
         return $demos;
