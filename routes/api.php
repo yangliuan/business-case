@@ -9,6 +9,7 @@ use App\Http\Controllers\FilesCase\DownloadController;
 use App\Http\Controllers\ImageCase\InterventionController;
 use App\Http\Controllers\Doc\WordController;
 use App\Http\Controllers\ExcelCase\ImportController;
+use App\Http\Controllers\FilesCase\AliyunOssController;
 use App\Http\Controllers\Wechat\MiniProgramController;
 
 /*
@@ -25,6 +26,9 @@ use App\Http\Controllers\Wechat\MiniProgramController;
 Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);//上传文件
     Route::get('download', [DownloadController::class,'store']);//下载文件
+    Route::prefix('oss')->group(function () {
+        Route::post('store', [AliyunOssController::class,'store']);//oss本地上传
+    });
 });
 
 Route::prefix('excel')->group(function () {
