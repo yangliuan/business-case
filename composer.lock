@@ -9043,16 +9043,16 @@
         },
         {
             "name": "w7corp/easywechat",
-            "version": "5.10.1",
+            "version": "5.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/w7corp/easywechat.git",
-                "reference": "b15a91ac445fa843f30dbdc3484beacd5945894b"
+                "reference": "77e31f8eda343206b91a9de7bebc88ed91ddd200"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/b15a91ac445fa843f30dbdc3484beacd5945894b",
-                "reference": "b15a91ac445fa843f30dbdc3484beacd5945894b",
+                "url": "https://api.github.com/repos/w7corp/easywechat/zipball/77e31f8eda343206b91a9de7bebc88ed91ddd200",
+                "reference": "77e31f8eda343206b91a9de7bebc88ed91ddd200",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -9129,23 +9129,15 @@
             ],
             "support": {
                 "issues": "https://github.com/w7corp/easywechat/issues",
-                "source": "https://github.com/w7corp/easywechat/tree/5.10.1"
+                "source": "https://github.com/w7corp/easywechat/tree/5.10.2"
             },
             "funding": [
                 {
-                    "url": "https://www.easywechat.com/img/pay/wechat.jpg",
-                    "type": "custom"
-                },
-                {
                     "url": "https://github.com/overtrue",
                     "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/overtrue",
-                    "type": "patreon"
                 }
             ],
-            "time": "2021-11-23T04:45:19+00:00"
+            "time": "2021-12-03T11:13:14+00:00"
         },
         {
             "name": "webmozart/assert",
