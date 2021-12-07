@@ -4,7 +4,7 @@ namespace App\Http\Controllers\ExcelCase;
 
 use App\Excels\Imports\ExcelDemoCollectionImport;
 use App\Excels\Imports\ExcelDemoModelImport;
-use App\Excels\Imports\ExcelDemoRowImport;
+use App\Excels\Imports\ExcelDemoRowPictureImport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -74,7 +74,7 @@ class ImportController extends Controller
         $pathInfo = pathinfo($request->file('excel')->getClientOriginalName());
         $disk = 'public';
         $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], $disk);
-        Excel::import(new ExcelDemoRowImport($disk, $path), $path, $disk);
+        Excel::import(new ExcelDemoRowPictureImport($disk, $path), $path, $disk);
 
         return response()->json();
     }
