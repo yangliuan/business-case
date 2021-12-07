@@ -26,9 +26,7 @@ use App\Http\Controllers\Wechat\MiniProgramController;
 Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);//上传文件
     Route::get('download', [DownloadController::class,'store']);//下载文件
-    Route::prefix('oss')->group(function () {
-        Route::post('store', [AliyunOssController::class,'store']);//oss本地上传
-    });
+    Route::apiResource('oss', AliyunOssController::class);//oss
 });
 
 Route::prefix('excel')->group(function () {

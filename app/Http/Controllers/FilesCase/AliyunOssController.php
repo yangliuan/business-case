@@ -9,6 +9,21 @@ use Illuminate\Support\Facades\Storage;
 
 class AliyunOssController extends Controller
 {
+    public function index(Request $request)
+    {
+        $picture = PictureDemo::select()
+            ->get();
+
+        return $picture;
+    }
+
+    /**
+     * 上传文件
+     * OSSDOC:https://github.com/iiDestiny/laravel-filesystem-oss
+     *
+     * @param Request $request
+     * @return json
+     */
     public function store(Request $request)
     {
         $request->validate([
