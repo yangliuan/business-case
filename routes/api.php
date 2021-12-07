@@ -9,6 +9,7 @@ use App\Http\Controllers\FilesCase\DownloadController;
 use App\Http\Controllers\ImageCase\InterventionController;
 use App\Http\Controllers\Doc\WordController;
 use App\Http\Controllers\ExcelCase\ImportController;
+use App\Http\Controllers\Wechat\MiniProgramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,5 +64,11 @@ Route::prefix('image')->group(function () {
         Route::any('compress', [InterventionController::class,'compress']);//压缩图片
         Route::any('thumbnail', [InterventionController::class,'thumbnail']);//缩略图
         Route::any('convert', [InterventionController::class,'convert']);//转换为webp
+    });
+});
+
+Route::prefix('wechat')->group(function () {
+    Route::prefix('miniprogram')->group(function () {
+        Route::get('qrcode', [MiniProgramController::class,'qrCode']);//小程序码
     });
 });
