@@ -6,11 +6,23 @@ use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\PictureDemo;
 
 class UploadsController extends Controller
 {
+    /**
+     * 上传文件，可选择磁盘
+     *
+     * @param Request $request
+     * @return json
+     */
     public function upload(Request $request)
     {
+        $request->validate([
+            'disk'=>'bail|required|in:public,oss',
+            'file'=>'bail|required|file',
+        ]);
+
         $subpath = date('Ymd');
         $disk = $request->input('disk') ?? config('filesystems.default');
         $storage = Storage::disk($disk);
@@ -22,5 +34,28 @@ class UploadsController extends Controller
         } catch (\Throwable $th) {
             throw ValidationException::withMessages(['file' => [$th->getMessage()]]);
         }
+    }
+
+    /**
+     * 存储到指定磁盘
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function storeToDisk(Request $request)
+    {
+        $request->validate([
+            'disk'=>'bail|required|in:public,oss',
+            'file'=>'bail|required|file',
+        ]);
+        $path = 'test/'.date('Y-m-d');
+        $file_name = Storage::disk($request->input('disk'))->put($path, $request->file('file'));
+
+        $picture_demo = PictureDemo::create([
+            'disk' => $request->input('disk'),
+            'path' => Storage::disk($request->input('disk'))->url($file_name)
+        ]);
+
+        return $picture_demo;
     }
 }

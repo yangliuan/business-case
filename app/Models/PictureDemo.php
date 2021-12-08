@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Casts\ImageUrlDefault;
+
 class PictureDemo extends BaseModel
 {
     protected $table = 'picture_demos';
@@ -10,7 +12,9 @@ class PictureDemo extends BaseModel
 
     protected $dates = [];
 
-    protected $casts = [];
+    protected $casts = [
+        'path' => ImageUrlDefault::class
+    ];
 
     protected $appends = [];
 
