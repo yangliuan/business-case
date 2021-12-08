@@ -24,6 +24,6 @@ class AliyunOssController extends Controller
         $path = 'test/'.date('Y-m-d');
         $file_name = Storage::disk($request->input('disk'))->put($path, $request->file('file'));
 
-        return $file_name;
+        return response()->json(['file_name'=>$file_name]);
     }
 }

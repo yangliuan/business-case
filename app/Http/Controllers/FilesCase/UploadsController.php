@@ -35,27 +35,4 @@ class UploadsController extends Controller
             throw ValidationException::withMessages(['file' => [$th->getMessage()]]);
         }
     }
-
-    /**
-     * 存储到指定磁盘
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function storeToDisk(Request $request)
-    {
-        $request->validate([
-            'disk'=>'bail|required|in:public,oss',
-            'file'=>'bail|required|file',
-        ]);
-        $path = 'test/'.date('Y-m-d');
-        $file_name = Storage::disk($request->input('disk'))->put($path, $request->file('file'));
-
-        $picture_demo = PictureDemo::create([
-            'disk' => $request->input('disk'),
-            'path' => Storage::disk($request->input('disk'))->url($file_name)
-        ]);
-
-        return $picture_demo;
-    }
 }

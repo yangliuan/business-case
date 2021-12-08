@@ -10,6 +10,7 @@ use App\Http\Controllers\ImageCase\InterventionController;
 use App\Http\Controllers\Doc\WordController;
 use App\Http\Controllers\ExcelCase\ImportController;
 use App\Http\Controllers\FilesCase\AliyunOssController;
+use App\Http\Controllers\FilesCase\UrlHandleController;
 use App\Http\Controllers\Wechat\MiniProgramController;
 
 /*
@@ -27,6 +28,7 @@ Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class,'upload']);//上传文件
     Route::get('download', [DownloadController::class,'store']);//下载文件
     Route::apiResource('oss', AliyunOssController::class);//oss
+    Route::apiResource('url-handle', UrlHandleController::class);//url处理方式
 });
 
 Route::prefix('excel')->group(function () {

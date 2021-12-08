@@ -1,25 +1,14 @@
 <?php
-/**
- * 自定义类型转换
- * DOC:https://learnku.com/docs/laravel/8.5/eloquent-mutators/10412#custom-casts
- */
 
 namespace App\Casts;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Support\Facades\Storage;
 
-class ImageUrlDefault implements CastsAttributes
+class ImageUrlByDisk implements CastsAttributes
 {
-    protected $filesystem_default;
-
-    public function __construct()
-    {
-        $this->filesystem_default = config('filesystems.default');
-    }
-
     /**
-     * 根据文件系统默认驱动 获取文件url
+     * 根据磁盘 获取文件url 查询出的模型必须包含disk属性
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
@@ -29,15 +18,15 @@ class ImageUrlDefault implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        if (strpos($value, 'http')) {
+        if (strpos($value, 'http') === 0) {
             return $value;
         } else {
-            return Storage::disk($this->filesystem_default)->url($value);
+            return Storage::disk($model->disk)->url($value);
         }
     }
 
     /**
-     * 根据文件系统默认驱动 设置文件路径
+     * 根据磁盘 设置文件路径 查询出的模型必须包含disk属性
      *
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @param  string  $key
@@ -48,9 +37,9 @@ class ImageUrlDefault implements CastsAttributes
     public function set($model, string $key, $value, array $attributes)
     {
         if (strpos($value, 'http') === 0) {
-            if (in_array($this->filesystem_default, ['public']) && strpos($value, 'storage/')) {
+            if (in_array($model->disk, ['public']) && strpos($value, 'storage/')) {
                 return explode('storage/', $value)[1];
-            } elseif ($this->filesystem_default === 'oss') {
+            } elseif ($model->disk === 'oss') {
                 return parse_url($value, PHP_URL_PATH);
             }
         } else {
