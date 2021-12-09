@@ -40,4 +40,15 @@ class UrlHandleController extends Controller
 
         return response()->json();
     }
+
+    public function destroy(Request $request, $id)
+    {
+        $picture_demo = PictureDemo::first();
+        $picture_demo->delete();
+
+        $image_demo = ImageDemo::first();
+        $image_demo->delete();
+
+        return response()->json();
+    }
 }

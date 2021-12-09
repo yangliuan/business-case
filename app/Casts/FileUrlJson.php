@@ -37,9 +37,9 @@ class FileUrlJson implements CastsAttributes
         }
 
         //批量获取url
-        array_walk($value, function ($item, $key) {
+        $value = array_map(function ($item) {
             return $this->getStorageUrl($item, $this->disk);
-        });
+        }, $value);
 
         return $value;
     }
@@ -62,9 +62,9 @@ class FileUrlJson implements CastsAttributes
         }
 
         //批量设置路径
-        array_walk($value, function ($item, $key) {
+        $value = array_map(function ($item) {
             return $this->setStorageUrl($item, $this->disk);
-        });
+        }, $value);
 
         return json_encode($value);
     }

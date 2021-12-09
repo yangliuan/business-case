@@ -22,6 +22,8 @@ trait StorageUtils
             } elseif ($disk === 'oss') {
                 //oss磁盘
                 return parse_url($url, PHP_URL_PATH);
+            } else {
+                return $url;
             }
         } else {
             return $url;
