@@ -14,9 +14,9 @@ class FileUrlJson implements CastsAttributes
 
     protected $disk;
 
-    public function __construct(string $disk = '')
+    public function __construct()
     {
-        $this->disk = $disk ? $disk : config('filesystems.default');
+        $this->disk = config('filesystems.default');
     }
 
     /**
