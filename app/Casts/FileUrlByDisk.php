@@ -2,11 +2,13 @@
 
 namespace App\Casts;
 
+use App\Traits\StorageUtils;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Facades\Storage;
 
-class ImageUrlByDisk implements CastsAttributes
+class FileUrlByDisk implements CastsAttributes
 {
+    use StorageUtils;
+
     /**
      * 根据磁盘 获取文件url 查询出的模型必须包含disk属性
      *
@@ -18,11 +20,7 @@ class ImageUrlByDisk implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        if (strpos($value, 'http') === 0) {
-            return $value;
-        } else {
-            return Storage::disk($model->disk)->url($value);
-        }
+        return $this->getStorageUrl($value, $model->disk);
     }
 
     /**
@@ -36,14 +34,6 @@ class ImageUrlByDisk implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        if (strpos($value, 'http') === 0) {
-            if (in_array($model->disk, ['public']) && strpos($value, 'storage/')) {
-                return explode('storage/', $value)[1];
-            } elseif ($model->disk === 'oss') {
-                return parse_url($value, PHP_URL_PATH);
-            }
-        } else {
-            return $value;
-        }
+        return $this->setStorageUrl($value, $model->disk);
     }
 }

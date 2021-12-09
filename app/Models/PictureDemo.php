@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Casts\ImageUrlByDisk;
+use App\Casts\FileUrlByDisk;
 
 class PictureDemo extends BaseModel
 {
@@ -13,7 +13,7 @@ class PictureDemo extends BaseModel
     protected $dates = [];
 
     protected $casts = [
-        'path' => ImageUrlByDisk::class
+        'path' => FileUrlByDisk::class
     ];
 
     protected $appends = [];

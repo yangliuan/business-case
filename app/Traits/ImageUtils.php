@@ -9,7 +9,7 @@ trait ImageUtils
      * 将base64图片保存为二进制文件,存储在本地
      *
      * @param string $imgBase64String
-     * @return void
+     * @return string url
      */
     public function saveBase64ImageToBin(string $imgBase64String)
     {
@@ -60,11 +60,11 @@ trait ImageUtils
     /**
      * 计算字体文本在图片中的宽度
      *
-     * @param [type] $fontSize
-     * @param [type] $angle
-     * @param [type] $fontFace
-     * @param [type] $text
-     * @return void
+     * @param float $fontSize 字体大小
+     * @param float $angle 将被度量的角度大小
+     * @param string $fontFace 字体文件路径
+     * @param string $text 文本字符串
+     * @return array
      */
     public function getFontWidthHeightInImage($fontSize, $angle, $fontFace, $text)
     {

@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Casts\ImageUrlDefault;
-use App\Casts\ImageUrlGroup;
+use App\Casts\FileUrl;
+use App\Casts\FileUrlJson;
 
 class ImageDemo extends BaseModel
 {
@@ -14,8 +14,8 @@ class ImageDemo extends BaseModel
     protected $dates = [];
 
     protected $casts = [
-        'path' => ImageUrlDefault::class,
-        'path_group' => ImageUrlGroup::class
+        'path' => FileUrl::class,
+        'path_group' => FileUrlJson::class
     ];
 
     protected $appends = [];

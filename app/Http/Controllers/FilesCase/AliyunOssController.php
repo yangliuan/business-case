@@ -22,8 +22,9 @@ class AliyunOssController extends Controller
             'file'=>'bail|required|file',
         ]);
         $path = 'test/'.date('Y-m-d');
-        $file_name = Storage::disk($request->input('disk'))->put($path, $request->file('file'));
+        $disk = Storage::disk('oss');
+        $file_name = $disk->put($path, $request->file('file'));
 
-        return response()->json(['file_name'=>$file_name]);
+        return response()->json(['file_name'=>$file_name,'url'=>$disk->url($file_name)]);
     }
 }
