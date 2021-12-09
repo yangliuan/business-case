@@ -9,11 +9,11 @@ use DOMDocument;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Shared\Html;
-use App\Traits\SaveBase64Image;
+use App\Traits\ImageUtils;
 
 class WordController extends Controller
 {
-    use SaveBase64Image;
+    use ImageUtils;
 
     public function wordConvertHtml(Request $request)
     {
@@ -50,7 +50,7 @@ class WordController extends Controller
 
         //将base64图片保存成文件存到本地
         foreach ($images as $key => $image) {
-            $image->setAttribute('src', $this->save($image->getAttribute('src')));
+            $image->setAttribute('src', $this->saveBase64ImageToBin($image->getAttribute('src')));
         }
 
         $body = $htmlDom->getElementsByTagName('body')->item(0);

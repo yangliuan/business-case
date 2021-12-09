@@ -5,13 +5,10 @@ namespace Database\Seeders;
 use App\Models\ExcelDemo;
 use Illuminate\Database\Seeder;
 use Intervention\Image\Facades\Image;
-use App\Traits\WriteTextToImageTrait;
 use Illuminate\Support\Facades\Storage;
 
 class ExcelDemoPictureSeeder extends Seeder
 {
-    use WriteTextToImageTrait;
-
     /**
      * Run the database seeds.
      *

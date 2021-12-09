@@ -5,13 +5,13 @@ namespace App\Http\Controllers\ImageCase;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-use App\Traits\WriteTextToImageTrait;
+use App\Traits\ImageUtils;
 use Imagick;
 use ImagickDraw;
 
 class InterventionController extends Controller
 {
-    use WriteTextToImageTrait;
+    use ImageUtils;
 
     //生成水印
     public function watermarker(Request $request)
@@ -36,7 +36,7 @@ class InterventionController extends Controller
         $draw->setFontSize($fontSize);
         $fontInfo = $imagick->queryFontMetrics($draw, $text);
         dump($fontInfo);
-        $fontInfo = $this->getFontWidthHeight($fontSize, 0, $fontFace, $text);
+        $fontInfo = $this->getFontWidthHeightInImage($fontSize, 0, $fontFace, $text);
         dump($fontInfo);
     }
 
@@ -51,7 +51,7 @@ class InterventionController extends Controller
         $text = '  家长最好在 6 个月以后，逐渐引导宝宝使用带吸口或吸管的杯子。这时候可以先培养宝宝用杯子喝水的习惯，等宝宝适应后，再慢慢过渡到用杯子喝奶。';
 
         $backgroudImg->text(
-            $this->autowrap($fontSize, $angel, $fontFace, $text, $width),
+            $this->textAutowrapInImage($fontSize, $angel, $fontFace, $text, $width),
             80,
             350,
             function ($font) use ($fontFace, $fontSize) {

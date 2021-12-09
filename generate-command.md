@@ -8,4 +8,4 @@ php artisan make:scaffold ExcelDemo --schema="str_column:string(255):default('')
 php artisan make:scaffold PictureDemo --schema="disk:string(20):default(''):comment('磁盘'),path:string(255):default(''):comment('存储路径')" --comment="picture demo"
 
 # image demo
-php artisan make:scaffold ImageDemo --schema="path:string(255):default(''):comment('存储路径')" --comment="image demo"
+php artisan make:scaffold ImageDemo --schema="path:string(255):default(''):comment('存储路径'),path_group:text:nullable:comment('存储路径组')" --comment="image demo"
