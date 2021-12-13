@@ -23,7 +23,7 @@ class UploadsController extends Controller
             'file'=>'bail|required|file',
         ]);
 
-        $subpath = date('Ymd');
+        $subpath = date('Y').'/'.date('m').'/'.date('d');
         $disk = $request->input('disk') ?? config('filesystems.default');
         $storage = Storage::disk($disk);
 
