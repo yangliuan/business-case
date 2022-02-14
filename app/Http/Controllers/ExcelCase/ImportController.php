@@ -16,27 +16,27 @@ class ImportController extends Controller
     {
         $request->validate([
             'excel'=> [
-                'bail','required',
+                'bail', 'required',
                 function ($attribute, $value, $fail) {
                     if (
                         $value->getClientOriginalExtension() !== 'xlsx'
                         ||
-                        !in_array($value->getClientMimeType(), [
+                        ! in_array($value->getClientMimeType(), [
                             'application/vnd.ms-excel',
                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                             'application/wps-office.xlsx',
-                            'application/wps-office.xls'
+                            'application/wps-office.xls',
                         ])
                     ) {
                         return $fail('不支持的文件类型,请使用xlsx后缀的excel文件');
                     }
-                }
-            ]
+                },
+            ],
         ]);
         \set_time_limit(0);
         \ignore_user_abort(true);
         $pathInfo = pathinfo($request->file('excel')->getClientOriginalName());
-        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], 'public');
+        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'].time().'.'.$pathInfo['extension'], 'public');
         Excel::import(new ExcelDemoCollectionImport, $path, 'public');
         Storage::disk('public')->delete($path);
 
@@ -47,14 +47,14 @@ class ImportController extends Controller
     {
         $request->validate([
             'excel'=> [
-                'bail','required','file'
-            ]
+                'bail', 'required', 'file',
+            ],
         ]);
 
         \set_time_limit(0);
         \ignore_user_abort(true);
         $pathInfo = pathinfo($request->file('excel')->getClientOriginalName());
-        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], 'public');
+        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'].time().'.'.$pathInfo['extension'], 'public');
         Excel::import(new ExcelDemoModelImport, $path, 'public');
         Storage::disk('public')->delete($path);
 
@@ -65,15 +65,15 @@ class ImportController extends Controller
     {
         $request->validate([
             'excel'=> [
-                'bail','required','file'
-            ]
+                'bail', 'required', 'file',
+            ],
         ]);
 
         \set_time_limit(0);
         \ignore_user_abort(true);
         $pathInfo = pathinfo($request->file('excel')->getClientOriginalName());
         $disk = 'public';
-        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'] . time() . '.' . $pathInfo['extension'], $disk);
+        $path = $request->file('excel')->storeAs('excel', $pathInfo['filename'].time().'.'.$pathInfo['extension'], $disk);
         Excel::import(new ExcelDemoRowPictureImport($disk, $path), $path, $disk);
 
         return response()->json();
