@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Doc;
 
 use App\Http\Controllers\Controller;
+use App\Traits\ImageUtils;
+use DOMDocument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use DOMDocument;
-use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Shared\Html;
-use App\Traits\ImageUtils;
 
 class WordController extends Controller
 {
@@ -20,8 +20,8 @@ class WordController extends Controller
         $request->validate([
             'word' => [
                 'bail', 'required', 'file',
-                'mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/wps-office.docx'
-            ]
+                'mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/wps-office.docx',
+            ],
         ]);
 
         $pathInfo = pathinfo($request->word->getClientOriginalName());
@@ -34,15 +34,17 @@ class WordController extends Controller
             $readerName = 'Word2007';
         }
 
-        $path = $request->file('word')->storeAs('word', time() . '.' . $extentsion, 'public');
+        $path = $request->file('word')->storeAs('word', time().'.'.$extentsion, 'public');
 
-        $realPath = storage_path('app/public/' . $path);
+        $realPath = storage_path('app/public/'.$path);
 
         $word = IOFactory::load($realPath, $readerName);
 
         $write = IOFactory::createWriter($word, 'HTML');
 
         $htmlDom = new DOMDocument();
+
+        libxml_use_internal_errors(true);
 
         $htmlDom->loadHTML($write->getContent());
 
@@ -65,7 +67,7 @@ class WordController extends Controller
     public function htmlConvertWord(Request $request)
     {
         $request->validate([
-            'url' => 'required|url'
+            'url' => 'required|url',
         ]);
 
         $response = Http::get($request->input('url'));
@@ -85,6 +87,6 @@ class WordController extends Controller
         $section = $phpword->addSection();
         Html::addHtml($section, $htmlContent, true, true);
 
-        return $phpword->save(storage_path('word/' . time() . '.docx'), 'Word2007', true);
+        return $phpword->save(storage_path('word/'.time().'.docx'), 'Word2007', true);
     }
 }
