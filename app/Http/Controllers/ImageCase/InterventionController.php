@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\ImageCase;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use App\Traits\ImageUtils;
+use Illuminate\Http\Request;
 use Imagick;
 use ImagickDraw;
+use Intervention\Image\Facades\Image;
 
 class InterventionController extends Controller
 {
@@ -20,7 +20,7 @@ class InterventionController extends Controller
         $backgroudImg->insert(public_path('img/watermark.png'), 'bottom', 200, mt_rand(10, 100))
             ->save(storage_path('app/public/test.jpeg'));
 
-        return '<img src="' . asset('storage/test.jpeg') . '"/>';
+        return '<img src="'.asset('storage/test.jpeg').'"/>';
     }
 
     //图文混合水印，类似新浪微博，自动适配图片大小
@@ -61,7 +61,7 @@ class InterventionController extends Controller
             }
         )->save(storage_path('app/public/tips.jpeg'));
 
-        return '<img src="' . asset('storage/tips.jpeg') . '"/>';
+        return '<img src="'.asset('storage/tips.jpeg').'"/>';
     }
 
     //使用图层蒙版裁切成圆形,其它图形原理相同
@@ -77,7 +77,7 @@ class InterventionController extends Controller
             });
         $avatarImg->mask($maskImg)->save(storage_path('app/public/cut-round.png'));
 
-        return '<img src="' . asset('storage/cut-round.png') . '"/>';
+        return '<img src="'.asset('storage/cut-round.png').'"/>';
     }
 
     //海报绘制圆形头像
@@ -94,7 +94,7 @@ class InterventionController extends Controller
         $avatarImg->mask($maskImg);
         $backgroudImg->insert($avatarImg, 'top-left', 29, 126)->save(storage_path('app/public/draw-graphics.png'));
 
-        return '<img src="' . asset('storage/draw-graphics.png') . '"/>';
+        return '<img src="'.asset('storage/draw-graphics.png').'"/>';
     }
 
     //平铺填充图片
@@ -104,7 +104,7 @@ class InterventionController extends Controller
         $img->fill(public_path('img/avatar.jpeg'));
         $img->save(storage_path('app/public/tile.jpeg'));
 
-        return '<img src="' . asset('storage/tile.jpeg') . '"/>';
+        return '<img src="'.asset('storage/tile.jpeg').'"/>';
     }
 
     //绘制图形并响应为图片
@@ -126,7 +126,7 @@ class InterventionController extends Controller
         $avatar = base64_encode($avatar);
         Image::make($avatar)->save(storage_path('app/public/base64.jpeg'));
 
-        return '<img src="' . asset('storage/base64.jpeg') . '"/>';
+        return '<img src="'.asset('storage/base64.jpeg').'"/>';
     }
 
     //保持尺寸压缩图片大小
@@ -135,7 +135,7 @@ class InterventionController extends Controller
     {
         $request->validate([
             'image' => 'bail|required|image',
-            'compress' => 'bail|nullable|string|in:original,wechat'
+            'compress' => 'bail|nullable|string|in:original,wechat',
         ]);
 
         $uploadImage = Image::make($request->image);
@@ -178,17 +178,17 @@ class InterventionController extends Controller
         }
 
         $extension = $request->image->getClientOriginalExtension();
-        $uploadImage->save(storage_path('app/public/upload-img.' . $extension), '75', $extension);
+        $uploadImage->save(storage_path('app/public/upload-img.'.$extension), '75', $extension);
 
-        return '<img src="' . asset('storage/upload-img.' . $extension) . '"/>';
+        return '<img src="'.asset('storage/upload-img.'.$extension).'"/>';
     }
 
     //适配裁切方式生成缩略图
     public function thumbnail(Request $request)
     {
         $request->validate([
-             'image' => 'bail|required|image',
-         ]);
+            'image' => 'bail|required|image',
+        ]);
 
         $width = 400;
         $height = 400;
@@ -199,7 +199,7 @@ class InterventionController extends Controller
              }, 'center')
              ->save(storage_path('app/public/thumbnail.jpg'));
 
-        return '<img src="' . asset('storage/thumbnail.jpg') . '"/>';
+        return '<img src="'.asset('storage/thumbnail.jpg').'"/>';
     }
 
     //图片转换成格式
@@ -209,7 +209,7 @@ class InterventionController extends Controller
             'image' => 'bail|required|image',
         ]);
 
-        $savePath = storage_path('app/public/') . time() . '.webp';
+        $savePath = storage_path('app/public/').time().'.webp';
         $uploadImage = Image::make($request->image)->save($savePath, 75);
 
         return response()->file($savePath);
