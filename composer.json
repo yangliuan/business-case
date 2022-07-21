@@ -37,7 +37,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
-        "yangliuan/generator": "8.*"
+        "yangliuan/generator": "9.*"
     },
     "autoload": {
         "psr-4": {
