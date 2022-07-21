@@ -1,3 +1,3 @@
-# business-case
-需求解决方案案例
+# laravel-case
+常见业务需求和功能实现案例
 
