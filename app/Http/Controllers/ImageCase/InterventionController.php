@@ -208,10 +208,10 @@ class InterventionController extends Controller
         $request->validate([
             'image' => 'bail|required|image',
         ]);
+        $fileName = time().'.webp';
+        $savePath = storage_path('app/public/').$fileName;
+        Image::make($request->image)->save($savePath, 75);
 
-        $savePath = storage_path('app/public/').time().'.webp';
-        $uploadImage = Image::make($request->image)->save($savePath, 75);
-
-        return response()->file($savePath);
+        return '<img src="'.asset('storage/'.$fileName).'"/>';
     }
 }
