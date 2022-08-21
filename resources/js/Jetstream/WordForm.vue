@@ -1,3 +1,4 @@
+//前端上传 https://inertiajs.com/file-uploads
 <template>
     <form @submit.prevent="wordConvertHtml">
         <label>

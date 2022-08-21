@@ -4,6 +4,7 @@ use App\Http\Controllers\Doc\WordController;
 use App\Http\Controllers\ExcelCase\ExportController;
 use App\Http\Controllers\ExcelCase\ImportController;
 use App\Http\Controllers\FilesCase\AliyunOssController;
+use App\Http\Controllers\FilesCase\CompressController;
 use App\Http\Controllers\FilesCase\DownloadController;
 use App\Http\Controllers\FilesCase\UploadsController;
 use App\Http\Controllers\FilesCase\UrlHandleController;
@@ -27,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('files')->group(function () {
     Route::post('upload', [UploadsController::class, 'upload']); //上传文件
     Route::get('download', [DownloadController::class, 'store']); //下载文件
+    Route::post('download-zip', [CompressController::class, 'downloadZip']); //批量上传文件，压缩成zip下载
     Route::apiResource('oss', AliyunOssController::class); //oss
     Route::apiResource('url-handle', UrlHandleController::class); //url处理方式
 });

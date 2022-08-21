@@ -53,4 +53,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/word', function () {
         return Inertia::render('Word');
     })->name('word');
+
+    Route::get('/file-compress', function () {
+        return Inertia::render('FileCompress');
+    })->name('file-compress');
 });
